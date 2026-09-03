@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { CompareTable } from '@/components/portal/CompareTable'
 import { ProsConsCard } from '@/components/portal/ProsConsCard'
 import { RecoBox } from '@/components/portal/RecoBox'
-import { useTasksStore, type Choice } from '@/hooks/useTasksStore'
+import { useTasksStore, type Choice, type ListItem } from '@/hooks/useTasksStore'
 import { downloadFile, formatFileSize, saveFile } from '@/lib/fileStore'
 import {
   businessLicenseChecklist,
@@ -264,22 +264,25 @@ export function InfoDialog({ state, onOpenChange }: InfoDialogProps) {
               <p className="text-[12.5px] text-text-dim">Nenhuma opção adicionada ainda.</p>
             ) : (
               <ul className="space-y-2">
-                {listItems.map((address, index) => (
-                  <li
-                    key={`${address.label}-${index}`}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-line bg-surface-2 px-3 py-2.5"
-                  >
-                    <span className="text-[13px] text-text">{address.label}</span>
-                    <button
-                      type="button"
-                      title="Remover opção"
-                      className="flex size-5 shrink-0 items-center justify-center rounded-full text-text-dim hover:bg-danger/20 hover:text-danger"
-                      onClick={() => removeListItem(context, index)}
+                {listItems.map((raw, index) => {
+                  const address: ListItem = typeof raw === 'string' ? { label: raw } : raw
+                  return (
+                    <li
+                      key={`${address.label}-${index}`}
+                      className="flex items-center justify-between gap-3 rounded-lg border border-line bg-surface-2 px-3 py-2.5"
                     >
-                      <X className="size-3.5" />
-                    </button>
-                  </li>
-                ))}
+                      <span className="text-[13px] text-text">{address.label}</span>
+                      <button
+                        type="button"
+                        title="Remover opção"
+                        className="flex size-5 shrink-0 items-center justify-center rounded-full text-text-dim hover:bg-danger/20 hover:text-danger"
+                        onClick={() => removeListItem(context, index)}
+                      >
+                        <X className="size-3.5" />
+                      </button>
+                    </li>
+                  )
+                })}
               </ul>
             )}
           </>
@@ -341,7 +344,8 @@ export function InfoDialog({ state, onOpenChange }: InfoDialogProps) {
               <p className="text-[12.5px] text-text-dim">Nenhuma proposta anexada ainda.</p>
             ) : (
               <ul className="space-y-2">
-                {listItems.map((proposal, index) => {
+                {listItems.map((raw, index) => {
+                  const proposal: ListItem = typeof raw === 'string' ? { label: raw } : raw
                   const isApproved = currentChoice?.value === proposal.label
                   return (
                     <li

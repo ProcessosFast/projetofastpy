@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Dashboard } from '@/components/portal/Dashboard'
 import { FrenteView } from '@/components/portal/FrenteView'
 import { InfoDialog } from '@/components/portal/InfoDialog'
+import { MatrizResponsabilidade } from '@/components/portal/MatrizResponsabilidade'
 import { Sidebar, type TabId } from '@/components/portal/Sidebar'
 import { frentes } from '@/data/frentes'
 import { TasksStoreProvider } from '@/hooks/useTasksStore'
@@ -30,6 +31,7 @@ function PortalApp() {
       <Sidebar active={active} onChange={navigate} />
       <main className="h-screen flex-1 overflow-y-auto scrollbar-thin">
         {active === 'dashboard' && <Dashboard onNavigate={navigate} />}
+        {active === 'matriz' && <MatrizResponsabilidade />}
         {activeFrente && (
           <FrenteView
             frente={activeFrente}

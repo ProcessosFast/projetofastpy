@@ -6,7 +6,7 @@ import { frentes } from '@/data/frentes'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { cn } from '@/lib/utils'
 
-export type TabId = 'dashboard' | 'frente1' | 'frente2' | 'frente3'
+export type TabId = 'dashboard' | 'frente1' | 'frente2' | 'frente3' | 'matriz'
 
 interface SidebarProps {
   active: TabId
@@ -21,6 +21,7 @@ const tabs: { id: TabId; label: string; shortLabel: string; danger?: boolean }[]
     shortLabel: f.navLabel.match(/Frente (\d+)/)?.[1] ? `F${f.navLabel.match(/Frente (\d+)/)![1]}` : f.navLabel[0],
     danger: f.danger,
   })),
+  { id: 'matriz', label: 'Matriz de Responsabilidade', shortLabel: 'M' },
 ]
 
 export function Sidebar({ active, onChange }: SidebarProps) {
