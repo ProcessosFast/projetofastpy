@@ -290,7 +290,14 @@ export function InfoDialog({ state, onOpenChange }: InfoDialogProps) {
 
         {state.modal === 'propostas' && (
           <>
-            <DialogTitle>📎 Propostas de assessoria jurídica/contábil</DialogTitle>
+            <DialogTitle>
+              📎 Propostas de{' '}
+              {context.startsWith('contabil-')
+                ? 'empresa contábil'
+                : context.startsWith('despachante-')
+                  ? 'despachante aduaneiro'
+                  : 'assessoria jurídica'}
+            </DialogTitle>
             <DialogDescription>
               Anexe as propostas recebidas e marque qual foi aprovada. Recomendado: cole o link do
               Drive/SharePoint em vez de subir o arquivo — assim ele fica visível em qualquer

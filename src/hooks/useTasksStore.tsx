@@ -74,24 +74,32 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
   )
 
   React.useEffect(() => {
-    const SEED_KEY = 'py-portal-seed-assessoria-f1-v1'
+    const SEED_KEY = 'py-portal-seed-assessoria-f1-v2'
     if (window.localStorage.getItem(SEED_KEY)) return
     window.localStorage.setItem(SEED_KEY, 'true')
     setLists((prev) => {
-      if (prev['assessoria-f1']?.length) return prev
-      return {
-        ...prev,
-        'assessoria-f1': [
+      const next = { ...prev }
+      if (!next['assessoria-f1']?.length) {
+        next['assessoria-f1'] = [
           {
             label:
               'BKM | Berkemeyer — proposta jurídica (constituição SA/EAS, representação legal, RUC etc.)',
           },
+        ]
+      }
+      if (!next['contabil-f1']?.length) {
+        next['contabil-f1'] = [
           {
             label:
               'EFICON — proposta contábil (abertura Gs. 1.800.000 + mensal Gs. 660.000, para Fast Sistemas Construtivos EAS)',
           },
-        ],
+        ]
       }
+      if (next['assessoria-f1'].some((p) => p.label.startsWith('EFICON'))) {
+        // migrate a stray EFICON entry that was previously seeded under "assessoria"
+        next['assessoria-f1'] = next['assessoria-f1'].filter((p) => !p.label.startsWith('EFICON'))
+      }
+      return next
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

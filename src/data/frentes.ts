@@ -125,7 +125,7 @@ function societarioSection(
     structureTask,
     {
       id: `${prefix}-assessoria`,
-      label: 'Contratar assessoria jurídica/contábil no Paraguai',
+      label: 'Contratar assessoria jurídica no Paraguai',
       info: { modal: 'propostas', context: `assessoria-${prefix}` },
     },
     {
@@ -232,7 +232,11 @@ export const frentes: Frente[] = [
       {
         title: '4. Comércio Exterior & Importação',
         tasks: [
-          { id: 'f1-11', label: 'Contratar despachante aduaneiro' },
+          {
+            id: 'f1-11',
+            label: 'Contratar despachante aduaneiro',
+            info: { modal: 'propostas', context: 'despachante-f1' },
+          },
           { id: 'f1-12', label: 'Montar matriz NCM/tarifário completa' },
           { id: 'f1-13', label: 'Registrar como importador junto Ministério Indústria' },
         ],
@@ -434,7 +438,11 @@ export const frentes: Frente[] = [
         title: '8. Logística & Exportação Brasil',
         tasks: [
           { id: 'f3-31', label: 'Definir rota logística: MaxSteel PY → Portos' },
-          { id: 'f3-32', label: 'Contratar despachante aduaneiro Brasil' },
+          {
+            id: 'f3-32',
+            label: 'Contratar despachante aduaneiro Brasil',
+            info: { modal: 'propostas', context: 'despachante-f3' },
+          },
           { id: 'f3-33', label: 'Negociar freinte com operadores logísticos' },
         ],
       },
