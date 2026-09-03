@@ -4,6 +4,7 @@ import { Dashboard } from '@/components/portal/Dashboard'
 import { FrenteView } from '@/components/portal/FrenteView'
 import { InfoDialog } from '@/components/portal/InfoDialog'
 import { MatrizResponsabilidade } from '@/components/portal/MatrizResponsabilidade'
+import { RegistroDecisoes } from '@/components/portal/RegistroDecisoes'
 import { Sidebar, type TabId } from '@/components/portal/Sidebar'
 import { frentes } from '@/data/frentes'
 import { TasksStoreProvider } from '@/hooks/useTasksStore'
@@ -32,6 +33,7 @@ function PortalApp() {
       <main className="h-screen flex-1 overflow-y-auto scrollbar-thin">
         {active === 'dashboard' && <Dashboard onNavigate={navigate} />}
         {active === 'matriz' && <MatrizResponsabilidade />}
+        {active === 'decisoes' && <RegistroDecisoes />}
         {activeFrente && (
           <FrenteView
             frente={activeFrente}

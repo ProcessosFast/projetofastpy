@@ -1,6 +1,9 @@
+import * as React from 'react'
+
 import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { ChecklistSection } from '@/components/portal/ChecklistSection'
+import { FluxogramaFrente } from '@/components/portal/FluxogramaFrente'
 import type { Frente, InfoModal } from '@/data/frentes'
 import { useTasksStore } from '@/hooks/useTasksStore'
 import { cn } from '@/lib/utils'
@@ -14,6 +17,11 @@ interface FrenteViewProps {
 export function FrenteView({ frente, onOpenInfo, onTaskToggled }: FrenteViewProps) {
   const { frenteStats } = useTasksStore()
   const { done, total, pct } = frenteStats(frente.id)
+  const [view, setView] = React.useState<'checklist' | 'mapa'>('checklist')
+
+  React.useEffect(() => {
+    setView('checklist')
+  }, [frente.id])
 
   const stats = [
     { number: done, label: 'Concluído' },
@@ -85,15 +93,43 @@ export function FrenteView({ frente, onOpenInfo, onTaskToggled }: FrenteViewProp
         indicatorClassName={frente.danger ? 'from-danger to-[#b91c1c]' : undefined}
       />
 
-      {frente.subfases.map((subfase) => (
-        <ChecklistSection
-          key={subfase.title}
-          subfase={subfase}
-          frenteDanger={frente.danger}
-          onOpenInfo={onOpenInfo}
-          onTaskToggled={onTaskToggled}
-        />
-      ))}
+      <div className="mb-8 flex gap-2 border-b border-line">
+        {(
+          [
+            { id: 'checklist', label: 'Checklist' },
+            { id: 'mapa', label: 'Mapa de Implantação' },
+          ] as const
+        ).map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            onClick={() => setView(tab.id)}
+            className={cn(
+              '-mb-px border-b-2 px-4 py-2.5 text-[13.5px] font-bold transition-colors',
+              view === tab.id
+                ? frente.danger
+                  ? 'border-danger text-danger'
+                  : 'border-fast-red text-fast-red'
+                : 'border-transparent text-text-dim hover:text-text',
+            )}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {view === 'checklist' &&
+        frente.subfases.map((subfase) => (
+          <ChecklistSection
+            key={subfase.title}
+            subfase={subfase}
+            frenteDanger={frente.danger}
+            onOpenInfo={onOpenInfo}
+            onTaskToggled={onTaskToggled}
+          />
+        ))}
+
+      {view === 'mapa' && <FluxogramaFrente frente={frente} />}
     </div>
   )
 }

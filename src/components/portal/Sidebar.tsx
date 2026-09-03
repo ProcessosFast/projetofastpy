@@ -6,7 +6,7 @@ import { frentes } from '@/data/frentes'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { cn } from '@/lib/utils'
 
-export type TabId = 'dashboard' | 'frente1' | 'frente2' | 'frente3' | 'matriz'
+export type TabId = 'dashboard' | 'frente1' | 'frente2' | 'frente3' | 'matriz' | 'decisoes'
 
 interface SidebarProps {
   active: TabId
@@ -22,6 +22,7 @@ const tabs: { id: TabId; label: string; shortLabel: string; danger?: boolean }[]
     danger: f.danger,
   })),
   { id: 'matriz', label: 'Matriz de Responsabilidade', shortLabel: 'M' },
+  { id: 'decisoes', label: 'Registro de Decisões', shortLabel: 'R' },
 ]
 
 export function Sidebar({ active, onChange }: SidebarProps) {
