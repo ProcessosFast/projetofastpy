@@ -450,3 +450,23 @@ export const frentes: Frente[] = [
 ]
 
 export const totalSubfases = frentes.reduce((n, f) => n + f.subfases.length, 0)
+
+export interface FlatTask {
+  id: string
+  label: string
+  frenteId: Frente['id']
+  frenteLabel: string
+  subfaseTitle: string
+}
+
+export const allTasksFlat: FlatTask[] = frentes.flatMap((f) =>
+  f.subfases.flatMap((s) =>
+    s.tasks.map((t) => ({
+      id: t.id,
+      label: t.label,
+      frenteId: f.id,
+      frenteLabel: f.navLabel,
+      subfaseTitle: s.title.replace(/^\d+\.\s*/, ''),
+    })),
+  ),
+)

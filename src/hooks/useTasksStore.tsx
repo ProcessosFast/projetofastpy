@@ -16,6 +16,20 @@ export interface ListItem {
   fileLink?: string
 }
 
+export type TaskStatus = 'nao_iniciado' | 'em_andamento' | 'concluido'
+
+export const STATUS_PCT: Record<TaskStatus, number> = {
+  nao_iniciado: 0,
+  em_andamento: 50,
+  concluido: 100,
+}
+
+export const STATUS_LABEL: Record<TaskStatus, string> = {
+  nao_iniciado: 'Não iniciado',
+  em_andamento: 'Em andamento',
+  concluido: 'Concluído',
+}
+
 interface TasksStoreValue {
   checked: Record<string, boolean>
   toggleTask: (taskId: string) => void
@@ -28,6 +42,10 @@ interface TasksStoreValue {
   removeListItem: (context: string, index: number) => void
   frenteStats: (frenteId: string) => { done: number; total: number; pct: number }
   overallStats: () => { done: number; total: number; pct: number }
+  deadlines: Record<string, string>
+  setDeadline: (taskId: string, date: string) => void
+  taskStatus: (taskId: string) => TaskStatus
+  setTaskStatus: (taskId: string, status: TaskStatus) => void
 }
 
 const TasksStoreContext = React.createContext<TasksStoreValue | null>(null)
@@ -46,6 +64,14 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     {},
   )
   const [lists, setLists] = useLocalStorage<Record<string, ListItem[]>>('py-portal-lists', {})
+  const [deadlines, setDeadlines] = useLocalStorage<Record<string, string>>(
+    'py-portal-deadlines',
+    {},
+  )
+  const [statusMap, setStatusMap] = useLocalStorage<Record<string, TaskStatus>>(
+    'py-portal-task-status',
+    {},
+  )
 
   React.useEffect(() => {
     const SEED_KEY = 'py-portal-seed-assessoria-f1-v1'
@@ -72,12 +98,41 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
 
   const toggleTask = React.useCallback(
     (taskId: string) => {
-      setChecked((prev) => ({ ...prev, [taskId]: !prev[taskId] }))
+      const next = !checked[taskId]
+      setChecked((prev) => ({ ...prev, [taskId]: next }))
+      setStatusMap((prev) => ({ ...prev, [taskId]: next ? 'concluido' : 'nao_iniciado' }))
     },
-    [setChecked],
+    [checked, setChecked, setStatusMap],
   )
 
   const isChecked = React.useCallback((taskId: string) => !!checked[taskId], [checked])
+
+  const setDeadline = React.useCallback(
+    (taskId: string, date: string) => {
+      setDeadlines((prev) => {
+        if (!date) {
+          const next = { ...prev }
+          delete next[taskId]
+          return next
+        }
+        return { ...prev, [taskId]: date }
+      })
+    },
+    [setDeadlines],
+  )
+
+  const taskStatus = React.useCallback(
+    (taskId: string): TaskStatus => statusMap[taskId] ?? (checked[taskId] ? 'concluido' : 'nao_iniciado'),
+    [statusMap, checked],
+  )
+
+  const setTaskStatus = React.useCallback(
+    (taskId: string, status: TaskStatus) => {
+      setStatusMap((prev) => ({ ...prev, [taskId]: status }))
+      setChecked((prev) => ({ ...prev, [taskId]: status === 'concluido' }))
+    },
+    [setStatusMap, setChecked],
+  )
 
   const chooseOption = React.useCallback(
     (context: string, choice: Choice) => {
@@ -145,6 +200,10 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     removeListItem,
     frenteStats,
     overallStats,
+    deadlines,
+    setDeadline,
+    taskStatus,
+    setTaskStatus,
   }
 
   return <TasksStoreContext.Provider value={value}>{children}</TasksStoreContext.Provider>

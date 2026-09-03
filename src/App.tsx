@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { Cronograma } from '@/components/portal/Cronograma'
 import { Dashboard } from '@/components/portal/Dashboard'
 import { FrenteView } from '@/components/portal/FrenteView'
 import { InfoDialog } from '@/components/portal/InfoDialog'
@@ -33,6 +34,7 @@ function PortalApp() {
       <main className="h-screen flex-1 overflow-y-auto scrollbar-thin">
         {active === 'dashboard' && <Dashboard onNavigate={navigate} />}
         {active === 'matriz' && <MatrizResponsabilidade />}
+        {active === 'cronograma' && <Cronograma />}
         {active === 'decisoes' && <RegistroDecisoes />}
         {activeFrente && (
           <FrenteView
