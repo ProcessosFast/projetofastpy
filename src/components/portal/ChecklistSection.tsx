@@ -17,7 +17,6 @@ interface ChecklistSectionProps {
   subfase: Subfase
   frenteDanger?: boolean
   onOpenInfo: (modal: InfoModal, context?: string) => void
-  onTaskToggled: () => void
 }
 
 function infoTriggerLabel(modal: InfoModal): string {
@@ -50,7 +49,6 @@ export function ChecklistSection({
   subfase,
   frenteDanger,
   onOpenInfo,
-  onTaskToggled,
 }: ChecklistSectionProps) {
   const { isChecked, toggleTask, choices, clearChoice, lists } = useTasksStore()
   const [collapsed, setCollapsed] = React.useState(false)
@@ -118,10 +116,7 @@ export function ChecklistSection({
               <Checkbox
                 className="mt-0.5"
                 checked={checked}
-                onCheckedChange={() => {
-                  toggleTask(task.id)
-                  onTaskToggled()
-                }}
+                onCheckedChange={() => toggleTask(task.id)}
               />
               <div className="flex flex-1 flex-col gap-1.5">
                 <div className="flex flex-wrap items-baseline gap-2">

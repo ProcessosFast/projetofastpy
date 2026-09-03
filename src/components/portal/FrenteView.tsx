@@ -11,10 +11,9 @@ import { cn } from '@/lib/utils'
 interface FrenteViewProps {
   frente: Frente
   onOpenInfo: (modal: InfoModal, context?: string) => void
-  onTaskToggled: () => void
 }
 
-export function FrenteView({ frente, onOpenInfo, onTaskToggled }: FrenteViewProps) {
+export function FrenteView({ frente, onOpenInfo }: FrenteViewProps) {
   const { frenteStats } = useTasksStore()
   const { done, total, pct } = frenteStats(frente.id)
   const [view, setView] = React.useState<'checklist' | 'mapa'>('checklist')
@@ -125,7 +124,6 @@ export function FrenteView({ frente, onOpenInfo, onTaskToggled }: FrenteViewProp
             subfase={subfase}
             frenteDanger={frente.danger}
             onOpenInfo={onOpenInfo}
-            onTaskToggled={onTaskToggled}
           />
         ))}
 

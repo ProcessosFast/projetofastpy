@@ -24,8 +24,6 @@ function PortalApp() {
 
   const openInfo = (modal: InfoModal, context?: string) => setInfoState({ modal, context })
 
-  const handleTaskToggled = () => navigate('dashboard')
-
   const activeFrente = frentes.find((f) => f.id === active)
 
   return (
@@ -37,11 +35,7 @@ function PortalApp() {
         {active === 'cronograma' && <Cronograma />}
         {active === 'decisoes' && <RegistroDecisoes />}
         {activeFrente && (
-          <FrenteView
-            frente={activeFrente}
-            onOpenInfo={openInfo}
-            onTaskToggled={handleTaskToggled}
-          />
+          <FrenteView frente={activeFrente} onOpenInfo={openInfo} />
         )}
         <footer className="mt-12 border-t border-line px-8 py-8 text-center text-xs text-text-dim">
           <p>
