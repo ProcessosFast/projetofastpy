@@ -283,6 +283,7 @@ export const frentes: Frente[] = [
       {
         title: '5. Engenharia & Operacional',
         tasks: [
+          { id: 'f1-engenheiro', label: 'Contratar engenheiro para coordenar a estruturação operacional' },
           { id: 'f1-14', label: 'Desenvolver projeto showroom 100-300 m²' },
           { id: 'f1-15', label: 'Especificar infraestrutura showroom' },
           { id: 'f1-16', label: 'Planejar estoque inicial de produtos' },
