@@ -296,7 +296,9 @@ export function InfoDialog({ state, onOpenChange }: InfoDialogProps) {
                 ? 'empresa contábil'
                 : context.startsWith('despachante-')
                   ? 'despachante aduaneiro'
-                  : 'assessoria jurídica'}
+                  : context.startsWith('coworking-')
+                    ? 'escritório coworking'
+                    : 'assessoria jurídica'}
             </DialogTitle>
             <DialogDescription>
               Anexe as propostas recebidas e marque qual foi aprovada. Recomendado: cole o link do
@@ -724,90 +726,6 @@ export function InfoDialog({ state, onOpenChange }: InfoDialogProps) {
                 ))}
               </ul>
             </div>
-          </>
-        )}
-
-        {state.modal === 'coworking' && (
-          <>
-            <DialogTitle>🏢 Escritório Coworking — qual opção escolher?</DialogTitle>
-            <DialogDescription>
-              Comparativo entre as duas opções de coworking disponíveis.
-            </DialogDescription>
-            <div className="mb-7 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <ProsConsCard
-                title="Coworking 1 — Domicilio Fiscal"
-                choiceLabel="Coworking 1 — Domicilio Fiscal"
-                selected={currentChoice?.value === 'domicilio-fiscal'}
-                onChoose={() =>
-                  choose({ value: 'domicilio-fiscal', label: 'Coworking 1 — Domicilio Fiscal' })
-                }
-                groups={[
-                  {
-                    label: 'O que é',
-                    items: [
-                      'Apenas endereço legal para constituição da empresa',
-                      'Gs. 450.000/mês (ou Gs. 4.500.000/ano)',
-                      'Inclui: RUC, patente municipal, conta bancária, representação fiscal',
-                    ],
-                  },
-                  {
-                    label: 'Contras',
-                    tone: 'con',
-                    items: [
-                      '⚠️ NÃO vale para maquila/operação industrial — só para escritório administrativo',
-                    ],
-                  },
-                  { label: 'Contato', items: ['Ireneo Rufinelli (Banco UENO)'] },
-                ]}
-              />
-              <ProsConsCard
-                title="Coworking 2 — Escritorio Compartido"
-                choiceLabel="Coworking 2 — Escritorio Compartido"
-                selected={currentChoice?.value === 'escritorio-compartido'}
-                onChoose={() =>
-                  choose({
-                    value: 'escritorio-compartido',
-                    label: 'Coworking 2 — Escritorio Compartido',
-                  })
-                }
-                groups={[
-                  {
-                    label: 'O que é',
-                    items: [
-                      'Espaço físico de trabalho',
-                      'Gs. 1.250.000/mês (ou Gs. 100.000/dia)',
-                      'Inclui: mesas, energia, internet, ar-condicionado, café, limpeza',
-                    ],
-                  },
-                  {
-                    label: 'Observação',
-                    tone: 'con',
-                    items: [
-                      'Escritório compartilhado — uso prático de espaço, não substitui galpão industrial',
-                    ],
-                  },
-                  { label: 'Contato', items: ['Ireneo Rufinelli (mesmo contato)'] },
-                ]}
-              />
-            </div>
-
-            <h4 className="mb-3.5 text-[15px] font-extrabold text-white">
-              Para a MaxSteel Paraguai, qual usar?
-            </h4>
-            <RecoBox tone="no" title="❌ Opção 1 (Domicilio Fiscal) — NÃO recomendado">
-              O próprio documento diz: "procesos industriales, maquilas, depósitos... podrán
-              necesitar una dirección diferente para su habilitación y operación".
-            </RecoBox>
-            <RecoBox tone="yes" title="✅ Opção 2 (Escritorio Compartido) — Complementar, não primário">
-              Serve como escritório administrativo, mas a operação industrial (F530, corte,
-              perfilamento) precisa do galpão real que será alugado no Km 14–16 (Frente 3 do
-              passo a passo).
-            </RecoBox>
-            <RecoBox tone="info" title="Na prática">
-              É preciso o galpão de 750 m² (Frente 3) para operar a máquina + estoque, não
-              coworking. O Delta Coworking é apenas uma alternativa para respaldo de endereço
-              administrativo, se necessário — mas o motor da operação é o galpão.
-            </RecoBox>
           </>
         )}
 

@@ -1,6 +1,5 @@
 export type InfoModal =
   | 'docs'
-  | 'coworking'
   | 'struct'
   | 'ruc'
   | 'socios'
@@ -306,6 +305,17 @@ export const frentes: Frente[] = [
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
         ],
       },
+      {
+        title: '10. Escritório Coworking',
+        tasks: [
+          {
+            id: 'f1-coworking',
+            label: 'Escritório coworking (endereço para abertura das empresas)',
+            description: 'Já definido — anexe aqui as propostas recebidas.',
+            info: { modal: 'propostas', context: 'coworking-f1' },
+          },
+        ],
+      },
     ],
   },
   {
@@ -480,6 +490,17 @@ export const frentes: Frente[] = [
         tasks: [
           { id: 'f3-34', label: 'Simulação financeira: CAPEX vs. Margem 1% maquila' },
           { id: 'f3-35', label: 'Go/No-go decisão: Aprovação financeira Conselho' },
+        ],
+      },
+      {
+        title: '10. Escritório Coworking',
+        tasks: [
+          {
+            id: 'f3-coworking',
+            label: 'Escritório coworking (endereço para abertura das empresas)',
+            description: 'Já definido — anexe aqui as propostas recebidas.',
+            info: { modal: 'propostas', context: 'coworking-f3' },
+          },
         ],
       },
     ],

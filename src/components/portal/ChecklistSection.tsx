@@ -22,7 +22,6 @@ interface ChecklistSectionProps {
 function infoTriggerLabel(modal: InfoModal): string {
   switch (modal) {
     case 'struct':
-    case 'coworking':
       return 'ver prós e contras'
     case 'socios':
       return 'ver sócios'
