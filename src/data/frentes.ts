@@ -185,6 +185,31 @@ function societarioSection(
   return tasks
 }
 
+function bkmMilestones(prefix: string): Task[] {
+  return [
+    {
+      id: `${prefix}-bkm-dados`,
+      label: 'Enviar documentação para a BKM (coleta de dados)',
+      description: 'Prazo combinado: 09 a 12/09/2026.',
+    },
+    {
+      id: `${prefix}-bkm-reuniao1`,
+      label: '1ª reunião técnica com a BKM (online)',
+      description: 'Levantamento e entendimento dos negócios. Prazo: 15 ou 16/09/2026.',
+    },
+    {
+      id: `${prefix}-bkm-parecer`,
+      label: 'Receber parecer final da BKM (estruturação jurídica/tributária)',
+      description: 'Conclusão da estruturação prevista até 30/09/2026.',
+    },
+    {
+      id: `${prefix}-bkm-retainer`,
+      label: 'Iniciar assistência jurídica contínua com a BKM (retainer)',
+      description: 'A partir de 01/10/2026 — US$ 750 + IVA / 5h por mês / 6 meses.',
+    },
+  ]
+}
+
 export const frentes: Frente[] = [
   {
     id: 'frente1',
@@ -227,6 +252,7 @@ export const frentes: Frente[] = [
         tasks: [
           { id: 'f1-9', label: 'Contrato franquia/parceria com FAST Brasil' },
           { id: 'f1-10', label: 'Definir representação legal' },
+          ...bkmMilestones('f1'),
         ],
       },
       {
@@ -362,16 +388,19 @@ export const frentes: Frente[] = [
     subfases: [
       {
         title: '1. Estrutura Jurídica & Societária',
-        tasks: societarioSection(
-          'f3',
-          {
-            id: 'f3-estrutura',
-            label: 'Escolher estrutura jurídica (E.A.S. vs S.A.)',
-            info: { modal: 'struct', context: 'struct-f3' },
-          },
-          'a fábrica',
-          false,
-        ),
+        tasks: [
+          ...societarioSection(
+            'f3',
+            {
+              id: 'f3-estrutura',
+              label: 'Escolher estrutura jurídica (E.A.S. vs S.A.)',
+              info: { modal: 'struct', context: 'struct-f3' },
+            },
+            'a fábrica',
+            false,
+          ),
+          ...bkmMilestones('f3'),
+        ],
       },
       {
         title: '2. Programa de Maquila (Lei 7.547/2025) — CRÍTICO',

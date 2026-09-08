@@ -36,6 +36,24 @@ export function RegistroDecisoes() {
   const [title, setTitle] = React.useState('')
   const [responsible, setResponsible] = React.useState('')
 
+  React.useEffect(() => {
+    const SEED_KEY = 'py-portal-seed-decision-bkm-v1'
+    if (window.localStorage.getItem(SEED_KEY)) return
+    window.localStorage.setItem(SEED_KEY, 'true')
+    setDecisions((prev) => [
+      {
+        id: 'seed-bkm-contrato',
+        date: '2026-09-08',
+        time: '00:00',
+        title:
+          'Contrato assinado com BKM-Berkmeyer: assessoria jurídica/tributária para MaxSteel Paraguai e Fast Sistemas + FastHomes/Loja. Escopo US$ 2.000 + IVA, início 01/10/2026, mais retainer de US$ 750 + IVA (5h/mês, 6 meses). Estrutura imobiliária (holding BR x empresa Shiawase) adiada para outubro.',
+        responsible: 'Grupo Fast / MaxSteel + BKM-Berkmeyer (Milena)',
+      },
+      ...prev,
+    ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const addDecision = () => {
     const trimmedTitle = title.trim()
     const trimmedResponsible = responsible.trim()

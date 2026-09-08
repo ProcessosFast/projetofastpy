@@ -104,6 +104,51 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  React.useEffect(() => {
+    const SEED_KEY = 'py-portal-seed-bkm-contrato-v1'
+    if (window.localStorage.getItem(SEED_KEY)) return
+    window.localStorage.setItem(SEED_KEY, 'true')
+
+    const bkmLabelF1 =
+      'BKM | Berkemeyer — proposta jurídica (constituição SA/EAS, representação legal, RUC etc.)'
+    const bkmLabelF3 =
+      'BKM | Berkemeyer — contrato assinado 08/09/2026 (estruturação jurídica/tributária MaxSteel Paraguai)'
+
+    setLists((prev) => {
+      const next = { ...prev }
+      if (!next['assessoria-f3']?.some((p) => p.label.startsWith('BKM'))) {
+        next['assessoria-f3'] = [...(next['assessoria-f3'] ?? []), { label: bkmLabelF3 }]
+      }
+      return next
+    })
+
+    setChoices((prev) => ({
+      ...prev,
+      'assessoria-f1': { value: bkmLabelF1, label: bkmLabelF1 },
+      'assessoria-f3': { value: bkmLabelF3, label: bkmLabelF3 },
+    }))
+
+    setChecked((prev) => ({ ...prev, 'f1-assessoria': true, 'f3-assessoria': true }))
+    setStatusMap((prev) => ({
+      ...prev,
+      'f1-assessoria': 'concluido',
+      'f3-assessoria': 'concluido',
+    }))
+
+    setDeadlines((prev) => ({
+      ...prev,
+      'f1-bkm-dados': '2026-09-12',
+      'f1-bkm-reuniao1': '2026-09-16',
+      'f1-bkm-parecer': '2026-09-30',
+      'f1-bkm-retainer': '2026-10-01',
+      'f3-bkm-dados': '2026-09-12',
+      'f3-bkm-reuniao1': '2026-09-16',
+      'f3-bkm-parecer': '2026-09-30',
+      'f3-bkm-retainer': '2026-10-01',
+    }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const toggleTask = React.useCallback(
     (taskId: string) => {
       const next = !checked[taskId]
