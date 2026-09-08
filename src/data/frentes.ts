@@ -444,6 +444,7 @@ export const frentes: Frente[] = [
       {
         title: '4. Engenharia & Especificação de Máquinas',
         tasks: [
+          { id: 'f3-engenheiro', label: 'Contratar engenheiro para coordenar a estruturação operacional' },
           { id: 'f3-14', label: 'Investigar V8 (Piracicaba) — Slitter Alianza del Acero' },
           { id: 'f3-15', label: 'Comparar Slitter V8 vs. máquinas chinesas' },
           { id: 'f3-16', label: 'Especificar perfiladeiras (Linha Drywall)' },
