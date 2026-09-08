@@ -149,6 +149,32 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  React.useEffect(() => {
+    const SEED_KEY = 'py-portal-seed-coworking-delta-v1'
+    if (window.localStorage.getItem(SEED_KEY)) return
+    window.localStorage.setItem(SEED_KEY, 'true')
+
+    const domicilioFiscal: ListItem = {
+      label:
+        'Delta Coworking — Domicilio Fiscal (Gs. 450.000/mês ou Gs. 4.500.000/ano). Inclui: registro/gestão DNIT, patente comercial municipal, abertura de contas bancárias, domicílio ante entidades públicas/privadas. Não vale para indústria/maquila/depósito — só escritório administrativo. Contato: Ireneo Rufinelli (Banco UENO).',
+    }
+    const escritorioCompartido: ListItem = {
+      label:
+        'Delta Coworking — Escritorio Compartido (Gs. 100.000/dia ou Gs. 1.250.000/mês, seg-sex 08h-17h). Espaço físico de trabalho: energia, ar-condicionado, internet, limpeza, coffee break. Contato: Ireneo Rufinelli (Banco UENO).',
+    }
+
+    setLists((prev) => {
+      const next = { ...prev }
+      ;(['coworking-f1', 'coworking-f3'] as const).forEach((context) => {
+        if (!next[context]?.some((p) => p.label.startsWith('Delta Coworking'))) {
+          next[context] = [...(next[context] ?? []), domicilioFiscal, escritorioCompartido]
+        }
+      })
+      return next
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const toggleTask = React.useCallback(
     (taskId: string) => {
       const next = !checked[taskId]
