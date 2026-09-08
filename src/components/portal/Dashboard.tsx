@@ -14,8 +14,9 @@ import {
 
 import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { frentes } from '@/data/frentes'
-import { useTasksStore } from '@/hooks/useTasksStore'
+import { allTasksFlat, frentes } from '@/data/frentes'
+import { STATUS_LABEL, useTasksStore, type TaskStatus } from '@/hooks/useTasksStore'
+import { cn } from '@/lib/utils'
 import type { TabId } from '@/components/portal/Sidebar'
 
 interface DashboardProps {
@@ -25,9 +26,32 @@ interface DashboardProps {
 const RED = '#c41e3a'
 const DANGER = '#dc2626'
 
+function todayISO() {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function formatDateBR(iso: string) {
+  const [y, m, d] = iso.split('-')
+  if (!y || !m || !d) return iso
+  return `${d}/${m}/${y}`
+}
+
+const STATUS_DOT: Record<TaskStatus, string> = {
+  nao_iniciado: 'bg-text-dim',
+  em_andamento: 'bg-fast-red',
+  concluido: 'bg-success',
+}
+
 export function Dashboard({ onNavigate }: DashboardProps) {
-  const { frenteStats, overallStats } = useTasksStore()
+  const { frenteStats, overallStats, deadlines, taskStatus } = useTasksStore()
   const overall = overallStats()
+  const today = todayISO()
+
+  const macroTasks = allTasksFlat
+    .filter((t) => deadlines[t.id])
+    .map((t) => ({ ...t, deadline: deadlines[t.id], status: taskStatus(t.id) }))
+    .sort((a, b) => a.deadline.localeCompare(b.deadline))
 
   const gaugeData = [{ name: 'progresso', value: overall.pct, fill: RED }]
 
@@ -146,6 +170,70 @@ export function Dashboard({ onNavigate }: DashboardProps) {
         </ResponsiveContainer>
       </Card>
 
+      <Card className="p-8">
+        <div className="mb-1 flex items-center justify-between gap-3">
+          <h4 className="text-sm font-extrabold text-white">Cronograma macro</h4>
+          <button
+            type="button"
+            onClick={() => onNavigate('cronograma')}
+            className="text-[11.5px] font-bold text-fast-red hover:underline"
+          >
+            Ver cronograma completo →
+          </button>
+        </div>
+        <p className="mb-6 text-xs text-text-dim">
+          Marcos com data e status já decididos, em ordem cronológica
+        </p>
+
+        {macroTasks.length === 0 ? (
+          <p className="text-[12.5px] text-text-dim">
+            Nenhum prazo definido ainda. Defina prazos na aba Cronograma para eles aparecerem
+            aqui.
+          </p>
+        ) : (
+          <ul className="space-y-0">
+            {macroTasks.map((t, index) => {
+              const isLate = t.deadline < today && t.status !== 'concluido'
+              return (
+                <li
+                  key={t.id}
+                  className={cn(
+                    'flex items-center gap-4 py-3',
+                    index < macroTasks.length - 1 && 'border-b border-line',
+                  )}
+                >
+                  <div className="w-[74px] shrink-0 text-[12.5px] font-bold text-text-dim">
+                    {formatDateBR(t.deadline)}
+                  </div>
+                  <span
+                    className={cn('size-2 shrink-0 rounded-full', STATUS_DOT[t.status])}
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[13px] font-semibold text-text">{t.label}</p>
+                    <p className="text-[11px] text-text-dim">
+                      {t.frenteLabel.replace(/^Frente \d+ — /, '')}
+                    </p>
+                  </div>
+                  <span
+                    className={cn(
+                      'shrink-0 rounded-full border px-2.5 py-0.5 text-[10.5px] font-bold uppercase tracking-wide',
+                      isLate
+                        ? 'border-danger/40 bg-danger/15 text-danger'
+                        : t.status === 'concluido'
+                          ? 'border-success/40 bg-success/15 text-success'
+                          : t.status === 'em_andamento'
+                            ? 'border-wine-soft text-fast-red'
+                            : 'border-line text-text-dim',
+                    )}
+                  >
+                    {isLate ? 'Atrasada' : STATUS_LABEL[t.status]}
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </Card>
     </div>
   )
 }
