@@ -118,6 +118,7 @@ function societarioSection(
   structureTask: Task,
   businessNoun: string,
   detailedLicensing: boolean,
+  includeCoworking = false,
 ): Task[] {
   const tasks: Task[] = [
     { id: `${prefix}-socios-def`, label: 'Definir sócios', info: { modal: 'socios' } },
@@ -133,6 +134,18 @@ function societarioSection(
       info: { modal: 'representante', context: `representante-${prefix}` },
     },
     socios(`${prefix}-docs-socios`),
+  ]
+
+  if (includeCoworking) {
+    tasks.push({
+      id: `${prefix}-coworking`,
+      label: 'Escritório coworking (endereço para abertura das empresas)',
+      description: 'Já definido — anexe aqui as propostas recebidas.',
+      info: { modal: 'propostas', context: `coworking-${prefix}` },
+    })
+  }
+
+  tasks.push(
     {
       id: `${prefix}-endereco`,
       label: 'Definir endereço da empresa',
@@ -156,7 +169,7 @@ function societarioSection(
         ? { modal: 'licenca-municipal', context: `licenca-municipal-${prefix}` }
         : undefined,
     },
-  ]
+  )
 
   if (detailedLicensing) {
     tasks.push({
@@ -229,6 +242,7 @@ export const frentes: Frente[] = [
             info: { modal: 'struct', context: 'struct-f1' },
           },
           'a loja',
+          true,
           true,
         ),
       },
@@ -303,17 +317,6 @@ export const frentes: Frente[] = [
           { id: 'f1-25', label: 'Produzir catálogo comercial' },
           { id: 'f1-26', label: 'Planejar estratégia market launch' },
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
-        ],
-      },
-      {
-        title: '10. Escritório Coworking',
-        tasks: [
-          {
-            id: 'f1-coworking',
-            label: 'Escritório coworking (endereço para abertura das empresas)',
-            description: 'Já definido — anexe aqui as propostas recebidas.',
-            info: { modal: 'propostas', context: 'coworking-f1' },
-          },
         ],
       },
     ],
@@ -408,6 +411,7 @@ export const frentes: Frente[] = [
             },
             'a fábrica',
             false,
+            true,
           ),
           ...bkmMilestones('f3'),
         ],
@@ -490,17 +494,6 @@ export const frentes: Frente[] = [
         tasks: [
           { id: 'f3-34', label: 'Simulação financeira: CAPEX vs. Margem 1% maquila' },
           { id: 'f3-35', label: 'Go/No-go decisão: Aprovação financeira Conselho' },
-        ],
-      },
-      {
-        title: '10. Escritório Coworking',
-        tasks: [
-          {
-            id: 'f3-coworking',
-            label: 'Escritório coworking (endereço para abertura das empresas)',
-            description: 'Já definido — anexe aqui as propostas recebidas.',
-            info: { modal: 'propostas', context: 'coworking-f3' },
-          },
         ],
       },
     ],
