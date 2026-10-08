@@ -3,7 +3,7 @@ import { Trash2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { registerMigration, useSharedRecord } from '@/lib/sharedState'
 
 interface Decision {
   id: string
@@ -12,6 +12,30 @@ interface Decision {
   title: string
   responsible: string
 }
+
+const SEED_BKM: Decision = {
+  id: 'seed-bkm-contrato',
+  date: '2026-09-08',
+  time: '10:00',
+  title:
+    'Contrato assinado com BKM-Berkmeyer: assessoria jurídica/tributária para MaxSteel Paraguai e Fast Sistemas + FastHomes/Loja. Escopo US$ 2.000 + IVA, início 01/10/2026, mais retainer de US$ 750 + IVA (5h/mês, 6 meses). Estrutura imobiliária (holding BR x empresa Shiawase) adiada para outubro.',
+  responsible: 'Grupo Fast / MaxSteel + BKM-Berkmeyer (Milena)',
+}
+
+// Antes as decisões ficavam numa lista só neste navegador; sobem uma vez para o banco.
+registerMigration((d) => {
+  let legacy: Decision[] = []
+  try {
+    legacy = JSON.parse(window.localStorage.getItem('py-portal-decisions') ?? '[]') as Decision[]
+  } catch {
+    legacy = []
+  }
+  const decisions = d.decisions as Record<string, Decision>
+  legacy.forEach((item) => {
+    decisions[item.id] = item
+  })
+  decisions[SEED_BKM.id] = SEED_BKM
+})
 
 function todayISO() {
   const d = new Date()
@@ -30,38 +54,26 @@ function formatDate(iso: string) {
 }
 
 export function RegistroDecisoes() {
-  const [decisions, setDecisions] = useLocalStorage<Decision[]>('py-portal-decisions', [])
+  const [decisionsById, setDecisions] = useSharedRecord<Decision>(
+    'decisions',
+    'py-portal-decisions-v2',
+    {},
+  )
+  const decisions = Object.values(decisionsById)
   const [date, setDate] = React.useState(todayISO())
   const [time, setTime] = React.useState(nowHM())
   const [title, setTitle] = React.useState('')
   const [responsible, setResponsible] = React.useState('')
 
-  React.useEffect(() => {
-    const SEED_KEY = 'py-portal-seed-decision-bkm-v2'
-    if (window.localStorage.getItem(SEED_KEY)) return
-    window.localStorage.setItem(SEED_KEY, 'true')
-    setDecisions((prev) => [
-      {
-        id: 'seed-bkm-contrato',
-        date: '2026-09-08',
-        time: '10:00',
-        title:
-          'Contrato assinado com BKM-Berkmeyer: assessoria jurídica/tributária para MaxSteel Paraguai e Fast Sistemas + FastHomes/Loja. Escopo US$ 2.000 + IVA, início 01/10/2026, mais retainer de US$ 750 + IVA (5h/mês, 6 meses). Estrutura imobiliária (holding BR x empresa Shiawase) adiada para outubro.',
-        responsible: 'Grupo Fast / MaxSteel + BKM-Berkmeyer (Milena)',
-      },
-      ...prev.filter((d) => d.id !== 'seed-bkm-contrato'),
-    ])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const addDecision = () => {
     const trimmedTitle = title.trim()
     const trimmedResponsible = responsible.trim()
     if (!trimmedTitle || !trimmedResponsible) return
-    setDecisions((prev) => [
-      { id: `${Date.now()}`, date, time, title: trimmedTitle, responsible: trimmedResponsible },
+    const id = `${Date.now()}`
+    setDecisions((prev) => ({
       ...prev,
-    ])
+      [id]: { id, date, time, title: trimmedTitle, responsible: trimmedResponsible },
+    }))
     setTitle('')
     setResponsible('')
     setDate(todayISO())
@@ -69,7 +81,11 @@ export function RegistroDecisoes() {
   }
 
   const removeDecision = (id: string) => {
-    setDecisions((prev) => prev.filter((d) => d.id !== id))
+    setDecisions((prev) => {
+      const next = { ...prev }
+      delete next[id]
+      return next
+    })
   }
 
   const sorted = [...decisions].sort((a, b) =>

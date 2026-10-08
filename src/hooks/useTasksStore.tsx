@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { frentes } from '@/data/frentes'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { deleteFile } from '@/lib/fileStore'
+import { registerMigration, useSharedRecord } from '@/lib/sharedState'
 
 export interface Choice {
   value: string
@@ -56,134 +56,99 @@ const taskIdsByFrente: Record<string, string[]> = Object.fromEntries(
   frentes.map((f) => [f.id, f.subfases.flatMap((s) => s.tasks.map((t) => t.id))]),
 )
 
-export function TasksStoreProvider({ children }: { children: React.ReactNode }) {
-  const [checked, setChecked] = useLocalStorage<Record<string, boolean>>(
-    'py-portal-checked',
-    { 'socio-doc-nicole': true, 'socio-doc-joselio': true },
-  )
-  const [choices, setChoices] = useLocalStorage<Record<string, Choice>>(
-    'py-portal-choices',
-    {},
-  )
-  const [lists, setLists] = useLocalStorage<Record<string, ListItem[]>>('py-portal-lists', {})
-  const [deadlines, setDeadlines] = useLocalStorage<Record<string, string>>(
-    'py-portal-deadlines',
-    {},
-  )
-  const [owners, setOwners] = useLocalStorage<Record<string, string>>('py-portal-owners', {
-    'f1-estrutura-sistemica': 'Marcelo / Guilherme',
-  })
-  const [statusMap, setStatusMap] = useLocalStorage<Record<string, TaskStatus>>(
-    'py-portal-task-status',
-    {},
-  )
-
-  React.useEffect(() => {
-    const SEED_KEY = 'py-portal-seed-assessoria-f1-v2'
-    if (window.localStorage.getItem(SEED_KEY)) return
-    window.localStorage.setItem(SEED_KEY, 'true')
-    setLists((prev) => {
-      const next = { ...prev }
-      if (!next['assessoria-f1']?.length) {
-        next['assessoria-f1'] = [
+// Ajustes que antes eram aplicados por navegador ("checks oficiais"). Agora rodam
+// uma única vez, quando os dados locais sobem para o banco compartilhado.
+const LEGACY_SEEDS: [string, (d: Record<string, Record<string, unknown>>) => void][] = [
+  [
+    'py-portal-seed-assessoria-f1-v2',
+    (d) => {
+      const lists = d.lists as Record<string, ListItem[]>
+      if (!lists['assessoria-f1']?.length) {
+        lists['assessoria-f1'] = [
           {
             label:
               'BKM | Berkemeyer — proposta jurídica (constituição SA/EAS, representação legal, RUC etc.)',
           },
         ]
       }
-      if (!next['contabil-f1']?.length) {
-        next['contabil-f1'] = [
+      if (!lists['contabil-f1']?.length) {
+        lists['contabil-f1'] = [
           {
             label:
               'EFICON — proposta contábil (abertura Gs. 1.800.000 + mensal Gs. 660.000, para Fast Sistemas Construtivos EAS)',
           },
         ]
       }
-      if (next['assessoria-f1'].some((p) => p.label.startsWith('EFICON'))) {
-        // migrate a stray EFICON entry that was previously seeded under "assessoria"
-        next['assessoria-f1'] = next['assessoria-f1'].filter((p) => !p.label.startsWith('EFICON'))
+      lists['assessoria-f1'] = lists['assessoria-f1'].filter((p) => !p.label.startsWith('EFICON'))
+    },
+  ],
+  [
+    'py-portal-seed-bkm-contrato-v1',
+    (d) => {
+      const bkmLabelF1 =
+        'BKM | Berkemeyer — proposta jurídica (constituição SA/EAS, representação legal, RUC etc.)'
+      const bkmLabelF3 =
+        'BKM | Berkemeyer — contrato assinado 08/09/2026 (estruturação jurídica/tributária MaxSteel Paraguai)'
+      const lists = d.lists as Record<string, ListItem[]>
+      if (!lists['assessoria-f3']?.some((p) => p.label.startsWith('BKM'))) {
+        lists['assessoria-f3'] = [...(lists['assessoria-f3'] ?? []), { label: bkmLabelF3 }]
       }
-      return next
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+      Object.assign(d.choices, {
+        'assessoria-f1': { value: bkmLabelF1, label: bkmLabelF1 },
+        'assessoria-f3': { value: bkmLabelF3, label: bkmLabelF3 },
+      })
+      markDone(d, ['f1-assessoria', 'f3-assessoria'])
+      Object.assign(d.deadlines, {
+        'f1-bkm-dados': '2026-09-12',
+        'f1-bkm-reuniao1': '2026-09-16',
+        'f1-bkm-parecer': '2026-09-30',
+        'f1-bkm-retainer': '2026-10-01',
+        'f3-bkm-dados': '2026-09-12',
+        'f3-bkm-reuniao1': '2026-09-16',
+        'f3-bkm-parecer': '2026-09-30',
+        'f3-bkm-retainer': '2026-10-01',
+      })
+    },
+  ],
+  ['py-portal-seed-imovel-f1-v1', (d) => markDone(d, ['f1-17', 'f1-18'])],
+  [
+    'py-portal-seed-bkm-etapas-v1',
+    (d) => markDone(d, ['f1-bkm-dados', 'f1-bkm-reuniao1', 'f3-bkm-dados', 'f3-bkm-reuniao1']),
+  ],
+  ['py-portal-seed-pbw-f1-v1', (d) => markDone(d, ['f1-27'])],
+]
 
-  React.useEffect(() => {
-    const SEED_KEY = 'py-portal-seed-bkm-contrato-v1'
-    if (window.localStorage.getItem(SEED_KEY)) return
-    window.localStorage.setItem(SEED_KEY, 'true')
+function markDone(d: Record<string, Record<string, unknown>>, ids: string[]) {
+  ids.forEach((id) => {
+    d.checked[id] = true
+    d.status[id] = 'concluido'
+  })
+}
 
-    const bkmLabelF1 =
-      'BKM | Berkemeyer — proposta jurídica (constituição SA/EAS, representação legal, RUC etc.)'
-    const bkmLabelF3 =
-      'BKM | Berkemeyer — contrato assinado 08/09/2026 (estruturação jurídica/tributária MaxSteel Paraguai)'
+registerMigration((d) => {
+  LEGACY_SEEDS.forEach(([key, apply]) => {
+    if (window.localStorage.getItem(key)) return
+    window.localStorage.setItem(key, 'true')
+    apply(d)
+  })
+})
 
-    setLists((prev) => {
-      const next = { ...prev }
-      if (!next['assessoria-f3']?.some((p) => p.label.startsWith('BKM'))) {
-        next['assessoria-f3'] = [...(next['assessoria-f3'] ?? []), { label: bkmLabelF3 }]
-      }
-      return next
-    })
-
-    setChoices((prev) => ({
-      ...prev,
-      'assessoria-f1': { value: bkmLabelF1, label: bkmLabelF1 },
-      'assessoria-f3': { value: bkmLabelF3, label: bkmLabelF3 },
-    }))
-
-    setChecked((prev) => ({ ...prev, 'f1-assessoria': true, 'f3-assessoria': true }))
-    setStatusMap((prev) => ({
-      ...prev,
-      'f1-assessoria': 'concluido',
-      'f3-assessoria': 'concluido',
-    }))
-
-    setDeadlines((prev) => ({
-      ...prev,
-      'f1-bkm-dados': '2026-09-12',
-      'f1-bkm-reuniao1': '2026-09-16',
-      'f1-bkm-parecer': '2026-09-30',
-      'f1-bkm-retainer': '2026-10-01',
-      'f3-bkm-dados': '2026-09-12',
-      'f3-bkm-reuniao1': '2026-09-16',
-      'f3-bkm-parecer': '2026-09-30',
-      'f3-bkm-retainer': '2026-10-01',
-    }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  React.useEffect(() => {
-    const SEED_KEY = 'py-portal-seed-imovel-f1-v1'
-    if (window.localStorage.getItem(SEED_KEY)) return
-    window.localStorage.setItem(SEED_KEY, 'true')
-    setChecked((prev) => ({ ...prev, 'f1-17': true, 'f1-18': true }))
-    setStatusMap((prev) => ({ ...prev, 'f1-17': 'concluido', 'f1-18': 'concluido' }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  React.useEffect(() => {
-    const SEED_KEY = 'py-portal-seed-bkm-etapas-v1'
-    if (window.localStorage.getItem(SEED_KEY)) return
-    window.localStorage.setItem(SEED_KEY, 'true')
-    const ids = ['f1-bkm-dados', 'f1-bkm-reuniao1', 'f3-bkm-dados', 'f3-bkm-reuniao1']
-    setChecked((prev) => ({ ...prev, ...Object.fromEntries(ids.map((id) => [id, true])) }))
-    setStatusMap((prev) => ({
-      ...prev,
-      ...Object.fromEntries(ids.map((id) => [id, 'concluido' as const])),
-    }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  React.useEffect(() => {
-    const SEED_KEY = 'py-portal-seed-pbw-f1-v1'
-    if (window.localStorage.getItem(SEED_KEY)) return
-    window.localStorage.setItem(SEED_KEY, 'true')
-    setChecked((prev) => ({ ...prev, 'f1-27': true }))
-    setStatusMap((prev) => ({ ...prev, 'f1-27': 'concluido' }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+export function TasksStoreProvider({ children }: { children: React.ReactNode }) {
+  const [checked, setChecked] = useSharedRecord<boolean>('checked', 'py-portal-checked', {
+    'socio-doc-nicole': true,
+    'socio-doc-joselio': true,
+  })
+  const [choices, setChoices] = useSharedRecord<Choice>('choices', 'py-portal-choices', {})
+  const [lists, setLists] = useSharedRecord<ListItem[]>('lists', 'py-portal-lists', {})
+  const [deadlines, setDeadlines] = useSharedRecord<string>('deadlines', 'py-portal-deadlines', {})
+  const [owners, setOwners] = useSharedRecord<string>('owners', 'py-portal-owners', {
+    'f1-estrutura-sistemica': 'Marcelo / Guilherme',
+  })
+  const [statusMap, setStatusMap] = useSharedRecord<TaskStatus>(
+    'status',
+    'py-portal-task-status',
+    {},
+  )
 
   const toggleTask = React.useCallback(
     (taskId: string) => {

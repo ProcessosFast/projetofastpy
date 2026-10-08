@@ -10,9 +10,11 @@ import { Sidebar, type TabId } from '@/components/portal/Sidebar'
 import { frentes } from '@/data/frentes'
 import { TasksStoreProvider } from '@/hooks/useTasksStore'
 import type { InfoModal } from '@/data/frentes'
+import { useSyncStatus } from '@/lib/sharedState'
 
 function PortalApp() {
   const [active, setActive] = useState<TabId>('dashboard')
+  const sync = useSyncStatus()
   const [infoState, setInfoState] = useState<{ modal: InfoModal; context?: string } | null>(
     null,
   )
@@ -43,8 +45,11 @@ function PortalApp() {
             2026/2027
           </p>
           <p className="mt-3">
-            Powered by React + shadcn/ui + Recharts · os checkboxes salvam automaticamente no
-            navegador
+            {sync === 'online'
+              ? '● Sincronizado — alterações valem para todos que acessam o portal'
+              : sync === 'offline'
+                ? '● Sem conexão com o banco — alterações salvas só neste navegador por enquanto'
+                : 'Carregando dados compartilhados...'}
           </p>
         </footer>
       </main>
