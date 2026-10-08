@@ -50,6 +50,7 @@ function PortalApp() {
               : sync === 'offline'
                 ? '● Sem conexão com o banco — alterações salvas só neste navegador por enquanto'
                 : 'Carregando dados compartilhados...'}
+            <span className="ml-2 opacity-60">· versão {__APP_VERSION__}</span>
           </p>
         </footer>
       </main>
