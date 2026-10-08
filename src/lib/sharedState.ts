@@ -15,7 +15,16 @@ interface Registration {
 }
 
 // Mesmas coleções aceitas por api/state.js.
-const KNOWN_COLLECTIONS = ['checked', 'status', 'deadlines', 'owners', 'choices', 'lists', 'decisions']
+const KNOWN_COLLECTIONS = [
+  'checked',
+  'status',
+  'deadlines',
+  'owners',
+  'choices',
+  'lists',
+  'decisions',
+  'plano5w2h',
+]
 
 const registry = new Map<string, Registration>()
 const listeners = new Map<string, Set<(value: Collection) => void>>()

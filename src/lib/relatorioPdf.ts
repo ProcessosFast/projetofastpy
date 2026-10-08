@@ -1,5 +1,5 @@
 import type { Frente } from '@/data/frentes'
-import type { TaskStatus } from '@/hooks/useTasksStore'
+import type { Plano5w2h, TaskStatus } from '@/hooks/useTasksStore'
 import type { RowInput } from 'jspdf-autotable'
 
 const STATUS_TEXT: Record<TaskStatus, string> = {
@@ -214,4 +214,63 @@ export async function baixarCronogramaPdf(rows: CronogramaRow[], filtros: string
         .replace(/\s+/g, '')
     : ''
   doc.save(`cronograma${slug}-${hoje}.pdf`)
+}
+
+export async function baixar5w2hPdf(
+  frente: Frente,
+  data: RelatorioData & { plano5w2h: Record<string, Plano5w2h> },
+) {
+  const hoje = todayISO()
+  const { doc, autoTable } = await newDoc(`5W2H - ${frente.title}`, `Gerado em ${formatDate(hoje)}`)
+
+  const body: RowInput[] = frente.subfases.flatMap((subfase): RowInput[] => {
+    const header: RowInput = [
+      {
+        content: txt(subfase.title),
+        colSpan: 7,
+        styles: { fontStyle: 'bold', fillColor: [245, 228, 232], textColor: RED },
+      },
+    ]
+    if (subfase.tasks.length === 0) {
+      return [header, [{ content: 'Atividades a definir', colSpan: 7, styles: { textColor: MUTED } }]]
+    }
+    return [
+      header,
+      ...subfase.tasks.map((task): RowInput => {
+        const plano = data.plano5w2h[task.id] ?? {}
+        const done = data.taskStatus(task.id) === 'concluido'
+        return [
+          txt(`${task.label}${done ? ' (concluída)' : ''}`),
+          txt(plano.why ?? '') || '-',
+          txt(plano.where ?? '') || '-',
+          formatDate(data.deadlines[task.id] ?? ''),
+          txt(data.owners[task.id] ?? '') || '-',
+          txt(plano.how ?? '') || '-',
+          txt(plano.howMuch ?? '') || '-',
+        ]
+      }),
+    ]
+  })
+
+  autoTable(doc, {
+    startY: 31,
+    head: [['O quê', 'Por quê', 'Onde', 'Quando', 'Quem', 'Como', 'Quanto']],
+    body,
+    theme: 'grid',
+    styles: { font: 'helvetica', fontSize: 7.5, cellPadding: 1.8, textColor: DARK, lineColor: [220, 220, 220] },
+    headStyles: { fillColor: RED, textColor: 255, fontStyle: 'bold' },
+    columnStyles: {
+      0: { cellWidth: 62 },
+      1: { cellWidth: 46 },
+      2: { cellWidth: 28 },
+      3: { cellWidth: 20 },
+      4: { cellWidth: 30 },
+      5: { cellWidth: 48 },
+      6: { cellWidth: 'auto' },
+    },
+    margin: { left: 14, right: 14, bottom: 14 },
+  })
+
+  addFooter(doc)
+  doc.save(`5w2h-${frente.id}-${hoje}.pdf`)
 }

@@ -16,6 +16,9 @@ export interface ListItem {
   fileLink?: string
 }
 
+export type Plano5w2hField = 'why' | 'where' | 'how' | 'howMuch'
+export type Plano5w2h = Partial<Record<Plano5w2hField, string>>
+
 export type TaskStatus = 'nao_iniciado' | 'em_andamento' | 'concluido'
 
 export const STATUS_PCT: Record<TaskStatus, number> = {
@@ -46,6 +49,8 @@ interface TasksStoreValue {
   setDeadline: (taskId: string, date: string) => void
   owners: Record<string, string>
   setOwner: (taskId: string, owner: string) => void
+  plano5w2h: Record<string, Plano5w2h>
+  setPlano5w2h: (taskId: string, field: Plano5w2hField, value: string) => void
   taskStatus: (taskId: string) => TaskStatus
   setTaskStatus: (taskId: string, status: TaskStatus) => void
 }
@@ -144,6 +149,11 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
   const [owners, setOwners] = useSharedRecord<string>('owners', 'py-portal-owners', {
     'f1-estrutura-sistemica': 'Marcelo / Guilherme',
   })
+  const [plano5w2h, setPlano5w2hMap] = useSharedRecord<Plano5w2h>(
+    'plano5w2h',
+    'py-portal-5w2h',
+    {},
+  )
   const [statusMap, setStatusMap] = useSharedRecord<TaskStatus>(
     'status',
     'py-portal-task-status',
@@ -187,6 +197,20 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
       })
     },
     [setOwners],
+  )
+
+  const setPlano5w2h = React.useCallback(
+    (taskId: string, field: Plano5w2hField, value: string) => {
+      setPlano5w2hMap((prev) => {
+        const entry = { ...prev[taskId], [field]: value }
+        if (!value) delete entry[field]
+        const next = { ...prev }
+        if (Object.keys(entry).length) next[taskId] = entry
+        else delete next[taskId]
+        return next
+      })
+    },
+    [setPlano5w2hMap],
   )
 
   const taskStatus = React.useCallback(
@@ -272,6 +296,8 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     setDeadline,
     owners,
     setOwner,
+    plano5w2h,
+    setPlano5w2h,
     taskStatus,
     setTaskStatus,
   }

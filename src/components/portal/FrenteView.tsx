@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress'
 import { ChecklistSection } from '@/components/portal/ChecklistSection'
 import { Cronograma } from '@/components/portal/Cronograma'
 import { FluxogramaFrente } from '@/components/portal/FluxogramaFrente'
+import { Plano5w2h } from '@/components/portal/Plano5w2h'
 import type { Frente, InfoModal } from '@/data/frentes'
 import { useTasksStore } from '@/hooks/useTasksStore'
 import { baixarPlanoDeAcaoPdf } from '@/lib/relatorioPdf'
@@ -21,7 +22,7 @@ export function FrenteView({ frente, onOpenInfo }: FrenteViewProps) {
   const { frenteStats, taskStatus, deadlines, owners } = useTasksStore()
   const [gerando, setGerando] = React.useState(false)
   const { done, total, pct } = frenteStats(frente.id)
-  const [view, setView] = React.useState<'checklist' | 'cronograma' | 'mapa'>('checklist')
+  const [view, setView] = React.useState<'checklist' | 'cronograma' | '5w2h' | 'mapa'>('checklist')
 
   React.useEffect(() => {
     setView('checklist')
@@ -120,6 +121,7 @@ export function FrenteView({ frente, onOpenInfo }: FrenteViewProps) {
           [
             { id: 'checklist', label: 'Checklist' },
             { id: 'cronograma', label: 'Cronograma' },
+            { id: '5w2h', label: '5W2H' },
             { id: 'mapa', label: 'Mapa de Implantação' },
           ] as const
         ).map((tab) => (
@@ -152,6 +154,7 @@ export function FrenteView({ frente, onOpenInfo }: FrenteViewProps) {
         ))}
 
       {view === 'cronograma' && <Cronograma frenteId={frente.id} />}
+      {view === '5w2h' && <Plano5w2h frente={frente} />}
       {view === 'mapa' && <FluxogramaFrente frente={frente} />}
     </div>
   )

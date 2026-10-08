@@ -2,7 +2,16 @@ import { Redis } from '@upstash/redis'
 
 // Cada coleção vira um hash no Redis (py:<coleção>), com um campo por item.
 // Assim duas pessoas editando itens diferentes ao mesmo tempo não se sobrescrevem.
-const COLLECTIONS = ['checked', 'status', 'deadlines', 'owners', 'choices', 'lists', 'decisions']
+const COLLECTIONS = [
+  'checked',
+  'status',
+  'deadlines',
+  'owners',
+  'choices',
+  'lists',
+  'decisions',
+  'plano5w2h',
+]
 const INIT_KEY = 'py:initialized'
 
 // A integração da Vercel pode criar as variáveis com prefixo (ex.: STORAGE_KV_REST_API_URL).
