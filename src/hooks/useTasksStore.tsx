@@ -158,6 +158,19 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  React.useEffect(() => {
+    const SEED_KEY = 'py-portal-seed-bkm-etapas-v1'
+    if (window.localStorage.getItem(SEED_KEY)) return
+    window.localStorage.setItem(SEED_KEY, 'true')
+    const ids = ['f1-bkm-dados', 'f1-bkm-reuniao1', 'f3-bkm-dados', 'f3-bkm-reuniao1']
+    setChecked((prev) => ({ ...prev, ...Object.fromEntries(ids.map((id) => [id, true])) }))
+    setStatusMap((prev) => ({
+      ...prev,
+      ...Object.fromEntries(ids.map((id) => [id, 'concluido' as const])),
+    }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const toggleTask = React.useCallback(
     (taskId: string) => {
       const next = !checked[taskId]
