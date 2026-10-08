@@ -337,6 +337,7 @@ export const frentes: Frente[] = [
         tasks: [
           { id: 'f1-16', label: 'Planejar estoque inicial e definir enxoval da loja' },
           { id: 'f1-mobiliario', label: 'Definir mobiliário e fachada da loja' },
+          { id: 'f1-medidas-fachada', label: 'Retirar medidas da fachada da loja para enviar ao marketing' },
           {
             id: 'f1-equipamentos',
             label: 'Definir equipamentos que serão utilizados na loja',
