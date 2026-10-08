@@ -406,7 +406,11 @@ export const frentes: Frente[] = [
             label: 'Tráfego pago para a loja',
             description: 'Instagram, Facebook, Google e YouTube.',
           },
-          { id: 'f1-mkt-fachada', label: 'Fachada da loja' },
+          {
+            id: 'f1-mkt-fachada',
+            label: 'Fachada da loja',
+            description: 'Necessário tirar medidas e fotos da fachada real.',
+          },
           { id: 'f1-mkt-concorrencia', label: 'Mapeamento da concorrência em Foz do Iguaçu' },
           { id: 'f1-mkt-instagram', label: 'Instagram da loja PY' },
           {
