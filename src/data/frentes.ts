@@ -331,6 +331,8 @@ export const frentes: Frente[] = [
           { id: 'f1-mobiliario', label: 'Definir mobiliário e fachada da loja' },
           { id: 'f1-mix-varejo', label: 'Definir mix de varejo entre Fast Aço e Fast Homes' },
           { id: 'f1-internet', label: 'Contratar empresa de internet para instalação na loja e no galpão' },
+          { id: 'f1-luz', label: 'Ligar energia elétrica da loja (ANDE)' },
+          { id: 'f1-coleta', label: 'Regularizar taxa de coleta de lixo' },
           {
             id: 'f1-seguranca',
             label: 'Definir esquema de segurança da loja',
