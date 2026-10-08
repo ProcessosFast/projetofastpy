@@ -242,6 +242,11 @@ export const frentes: Frente[] = [
             label: 'Contratar empresa contábil',
             info: { modal: 'propostas', context: 'contabil-f1' },
           },
+          {
+            id: 'f1-22',
+            label: 'Contratar contador local',
+            description: 'O contrato precisa incluir a gestão da folha de pagamento dos funcionários.',
+          },
           { id: 'f1-6', label: 'Definir modelo tributário (Regime Simplificado vs. IRE GENERAL)' },
           { id: 'f1-7', label: 'Licença municipal en Ciudad del Este' },
           { id: 'f1-8', label: 'Inscrição no Instituto Previdência Social' },
@@ -304,7 +309,6 @@ export const frentes: Frente[] = [
           { id: 'f1-orcamento-loja', label: 'Criar orçamento completo da loja' },
           { id: 'f1-20', label: 'Orçamento reforma/obra showroom' },
           { id: 'f1-21', label: 'Orçamento estoque inicial' },
-          { id: 'f1-22', label: 'Contratar contador local' },
           { id: 'f1-23', label: 'Abertura conta bancária empresa' },
           {
             id: 'f1-pagamento-cartao',
