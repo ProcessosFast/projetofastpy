@@ -118,7 +118,6 @@ function societarioSection(
   structureTask: Task,
   businessNoun: string,
   detailedLicensing: boolean,
-  includeCoworking = false,
 ): Task[] {
   const tasks: Task[] = [
     { id: `${prefix}-socios-def`, label: 'Definir sócios', info: { modal: 'socios' } },
@@ -135,15 +134,6 @@ function societarioSection(
     },
     socios(`${prefix}-docs-socios`),
   ]
-
-  if (includeCoworking) {
-    tasks.push({
-      id: `${prefix}-coworking`,
-      label: 'Escritório coworking (endereço para abertura das empresas)',
-      description: 'Já definido — anexe aqui as propostas recebidas.',
-      info: { modal: 'propostas', context: `coworking-${prefix}` },
-    })
-  }
 
   tasks.push(
     {
@@ -216,8 +206,7 @@ function bkmMilestones(prefix: string): Task[] {
     },
     {
       id: `${prefix}-bkm-retainer`,
-      label: 'Iniciar assistência jurídica contínua com a BKM (retainer)',
-      description: 'A partir de 01/10/2026 — US$ 750 + IVA / 5h por mês / 6 meses.',
+      label: 'Acionar o OFRB',
     },
   ]
 }
@@ -242,7 +231,6 @@ export const frentes: Frente[] = [
             info: { modal: 'struct', context: 'struct-f1' },
           },
           'a loja',
-          true,
           true,
         ),
       },
@@ -412,7 +400,6 @@ export const frentes: Frente[] = [
             },
             'a fábrica',
             false,
-            true,
           ),
           ...bkmMilestones('f3'),
         ],
