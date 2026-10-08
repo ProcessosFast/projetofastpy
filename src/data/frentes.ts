@@ -433,6 +433,12 @@ export const frentes: Frente[] = [
           },
           { id: 'f1-mkt-musica', label: 'Música para a abertura', description: 'Voz e violão.' },
           { id: 'f1-mkt-refletor', label: 'Instalar refletor para a inauguração' },
+          {
+            id: 'f1-viagem-diretoria',
+            label: 'Viagem da diretoria para a inauguração (dia 05)',
+            description:
+              'Levar tudo o que precisa sair do Brasil: uniformes, brindes produzidos no Brasil e amostras para a loja.',
+          },
         ],
       },
     ],
