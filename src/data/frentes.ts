@@ -238,6 +238,11 @@ export const frentes: Frente[] = [
         title: '2. Fiscal & Tributária',
         tasks: [
           {
+            id: 'f1-viagem-contabil-dnit',
+            label: 'Viagem da diretoria (dia 21 ou 22) — contratação da contabilidade e ida à DNIT',
+            description: 'Fechar a contratação da empresa contábil e comparecer à DNIT.',
+          },
+          {
             id: 'f1-contabil',
             label: 'Contratar empresa contábil',
             info: { modal: 'propostas', context: 'contabil-f1' },
