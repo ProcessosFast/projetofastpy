@@ -149,6 +149,15 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  React.useEffect(() => {
+    const SEED_KEY = 'py-portal-seed-imovel-f1-v1'
+    if (window.localStorage.getItem(SEED_KEY)) return
+    window.localStorage.setItem(SEED_KEY, 'true')
+    setChecked((prev) => ({ ...prev, 'f1-17': true, 'f1-18': true }))
+    setStatusMap((prev) => ({ ...prev, 'f1-17': 'concluido', 'f1-18': 'concluido' }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const toggleTask = React.useCallback(
     (taskId: string) => {
       const next = !checked[taskId]
