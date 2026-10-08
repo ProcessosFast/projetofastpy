@@ -230,7 +230,14 @@ export function Cronograma({ frenteId }: CronogramaProps) {
                     )}
                     <td className="px-4 py-2.5">
                       <div className="font-semibold text-text">{row.label}</div>
-                      <div className="text-[11px] text-text-dim">{row.subfaseTitle}</div>
+                      {row.description && (
+                        <div className="mt-0.5 text-[11.5px] leading-snug text-text-dim">
+                          {row.description}
+                        </div>
+                      )}
+                      <div className="mt-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-text-dim/70">
+                        {row.subfaseTitle}
+                      </div>
                     </td>
                     <td className="px-4 py-2.5">
                       <input

@@ -23,6 +23,7 @@ export interface CronogramaRow {
   label: string
   frenteLabel: string
   subfaseTitle: string
+  description?: string
   deadline: string
   owner: string
   status: TaskStatus
@@ -188,7 +189,7 @@ export async function baixarCronogramaPdf(rows: CronogramaRow[], filtros: string
       const late = !!row.deadline && row.deadline < hoje && row.status !== 'concluido'
       return [
         txt(row.frenteLabel.replace(/^Frente \d+ — /, '')),
-        txt(`${row.label}\n${row.subfaseTitle}`),
+        txt([row.label, row.description, `[${row.subfaseTitle}]`].filter(Boolean).join('\n')),
         txt(row.owner) || '-',
         {
           content: late ? `${formatDate(row.deadline)}\nATRASADA` : formatDate(row.deadline),
