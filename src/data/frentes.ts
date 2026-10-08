@@ -374,6 +374,7 @@ export const frentes: Frente[] = [
           },
           { id: 'f1-vendedores', label: 'Contratar 2 vendedores' },
           { id: 'f1-caixa', label: 'Contratar 1 pessoa para o caixa da loja' },
+          { id: 'f1-servicos-gerais', label: 'Contratar 1 pessoa para serviços gerais' },
           { id: 'f1-operador-empilhadeira', label: 'Contratar operador de empilhadeira + ajudante' },
         ],
       },
