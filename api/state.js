@@ -18,6 +18,15 @@ const token = findEnv(['KV_REST_API_TOKEN', 'REDIS_REST_TOKEN'])
 
 const redis = url && token ? new Redis({ url, token, automaticDeserialization: false }) : null
 
+// Sem desserialização automática o HGETALL pode vir como lista plana [campo, valor, ...].
+function entries(raw) {
+  if (!raw) return []
+  if (!Array.isArray(raw)) return Object.entries(raw)
+  const pairs = []
+  for (let i = 0; i < raw.length; i += 2) pairs.push([raw[i], raw[i + 1]])
+  return pairs
+}
+
 async function readAll() {
   const pipe = redis.pipeline()
   pipe.get(INIT_KEY)
@@ -25,8 +34,7 @@ async function readAll() {
   const [initialized, ...hashes] = await pipe.exec()
   const data = {}
   COLLECTIONS.forEach((c, i) => {
-    const raw = hashes[i] ?? {}
-    data[c] = Object.fromEntries(Object.entries(raw).map(([k, v]) => [k, JSON.parse(v)]))
+    data[c] = Object.fromEntries(entries(hashes[i]).map(([k, v]) => [k, JSON.parse(v)]))
   })
   return { initialized: !!initialized, data }
 }
