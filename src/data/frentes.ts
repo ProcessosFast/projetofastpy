@@ -246,11 +246,7 @@ export const frentes: Frente[] = [
           { id: 'f1-7', label: 'Licença municipal en Ciudad del Este' },
           { id: 'f1-8', label: 'Inscrição no Instituto Previdência Social' },
           { id: 'f1-faturamento', label: 'Estruturar faturamento e emissão de documentos fiscais' },
-          {
-            id: 'f1-nota-remision',
-            label: 'Estudar modelo de Nota de Remisión',
-            description: 'Documento de transporte de mercadorias.',
-          },
+          { id: 'f1-nota-remision', label: 'Estudar modelo de Nota de Remisión' },
         ],
       },
       {
