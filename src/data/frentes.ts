@@ -522,6 +522,13 @@ export const frentes: Frente[] = [
       {
         title: '2. Programa de Maquila (Lei 7.547/2025) — CRÍTICO',
         tasks: [
+          {
+            id: 'f3-consultoria-maquila',
+            label: 'Contratar consultoria para o Programa de Maquila',
+            description:
+              'Contratada: Braspar (Asunción) — elaboração do projeto, apresentação ao CNIME e INTN, aprovação biministerial. Honorários USD 12.000 (50% na contratação, 50% na aprovação).',
+            info: { modal: 'propostas', context: 'consultoria-maquila-f3' },
+          },
           { id: 'f3-6', label: 'INICIAR Programa Maquila IMEDIATAMENTE (SETEMBRO 2026)' },
           { id: 'f3-7', label: 'Elaborar documentação técnica completa' },
           { id: 'f3-8', label: 'Certificar coeficientes junto INTN' },

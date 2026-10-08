@@ -296,7 +296,9 @@ export function InfoDialog({ state, onOpenChange }: InfoDialogProps) {
                 ? 'empresa contábil'
                 : context.startsWith('despachante-')
                   ? 'despachante aduaneiro'
-                  : 'assessoria jurídica'}
+                  : context.startsWith('consultoria-maquila-')
+                    ? 'consultoria do Programa de Maquila'
+                    : 'assessoria jurídica'}
             </DialogTitle>
             <DialogDescription>
               Anexe as propostas recebidas e marque qual foi aprovada. Recomendado: cole o link do
