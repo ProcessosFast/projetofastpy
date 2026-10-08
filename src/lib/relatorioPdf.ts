@@ -162,14 +162,14 @@ export async function baixarPlanoDeAcaoPdf(lista: Frente[], data: RelatorioData)
   doc.save(`plano-de-acao${slug}-${hoje}.pdf`)
 }
 
-export async function baixarCronogramaPdf(rows: CronogramaRow[], filtros: string) {
+export async function baixarCronogramaPdf(rows: CronogramaRow[], filtros: string, frenteLabel?: string) {
   const hoje = todayISO()
   const atrasadas = rows.filter((r) => r.deadline && r.deadline < hoje && r.status !== 'concluido').length
   const concluidas = rows.filter((r) => r.status === 'concluido').length
   const emAndamento = rows.filter((r) => r.status === 'em_andamento').length
 
   const { doc, autoTable } = await newDoc(
-    'Cronograma - Projeto Paraguai',
+    frenteLabel ? `Cronograma - ${frenteLabel}` : 'Cronograma - Projeto Paraguai',
     `Gerado em ${formatDate(hoje)} | Filtros: ${filtros}`,
   )
 
@@ -205,5 +205,13 @@ export async function baixarCronogramaPdf(rows: CronogramaRow[], filtros: string
   })
 
   addFooter(doc)
-  doc.save(`cronograma-${hoje}.pdf`)
+  const slug = frenteLabel
+    ? '-' +
+      frenteLabel
+        .split('—')[0]
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '')
+    : ''
+  doc.save(`cronograma${slug}-${hoje}.pdf`)
 }

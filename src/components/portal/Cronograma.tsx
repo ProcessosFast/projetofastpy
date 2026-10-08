@@ -3,7 +3,7 @@ import { FileDown } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { allTasksFlat, frentes } from '@/data/frentes'
+import { allTasksFlat, frentes, type Frente } from '@/data/frentes'
 import { STATUS_LABEL, STATUS_PCT, useTasksStore, type TaskStatus } from '@/hooks/useTasksStore'
 import { baixarCronogramaPdf, baixarPlanoDeAcaoPdf } from '@/lib/relatorioPdf'
 import { cn } from '@/lib/utils'
@@ -27,16 +27,27 @@ function todayISO() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
-export function Cronograma() {
+interface CronogramaProps {
+  /** Quando informado, mostra só as tarefas dessa frente (aba Cronograma dentro da frente). */
+  frenteId?: Frente['id']
+}
+
+export function Cronograma({ frenteId }: CronogramaProps) {
   const { deadlines, setDeadline, owners, setOwner, taskStatus, setTaskStatus } = useTasksStore()
-  const [frenteFilter, setFrenteFilter] = React.useState('todas')
+  const [frenteFilter, setFrenteFilter] = React.useState<string>(frenteId ?? 'todas')
   const [statusFilter, setStatusFilter] = React.useState<'todas' | TaskStatus>('todas')
   const [search, setSearch] = React.useState('')
   const [gerando, setGerando] = React.useState<'cronograma' | 'plano' | null>(null)
 
-  const today = todayISO()
+  React.useEffect(() => {
+    setFrenteFilter(frenteId ?? 'todas')
+  }, [frenteId])
 
-  const rows = allTasksFlat
+  const today = todayISO()
+  const baseTasks = frenteId ? allTasksFlat.filter((t) => t.frenteId === frenteId) : allTasksFlat
+  const frente = frentes.find((f) => f.id === frenteId)
+
+  const rows = baseTasks
     .map((t) => ({
       ...t,
       status: taskStatus(t.id),
@@ -56,11 +67,11 @@ export function Cronograma() {
       return a.deadline.localeCompare(b.deadline)
     })
 
-  const allStatuses = allTasksFlat.map((t) => taskStatus(t.id))
-  const totalTasks = allTasksFlat.length
+  const allStatuses = baseTasks.map((t) => taskStatus(t.id))
+  const totalTasks = baseTasks.length
   const concluidas = allStatuses.filter((s) => s === 'concluido').length
   const emAndamento = allStatuses.filter((s) => s === 'em_andamento').length
-  const atrasadas = allTasksFlat.filter((t) => {
+  const atrasadas = baseTasks.filter((t) => {
     const dl = deadlines[t.id]
     return dl && dl < today && taskStatus(t.id) !== 'concluido'
   }).length
@@ -76,7 +87,7 @@ export function Cronograma() {
   const gerar = async (tipo: 'cronograma' | 'plano') => {
     setGerando(tipo)
     try {
-      if (tipo === 'cronograma') await baixarCronogramaPdf(rows, filtrosTexto)
+      if (tipo === 'cronograma') await baixarCronogramaPdf(rows, filtrosTexto, frente?.navLabel)
       else await baixarPlanoDeAcaoPdf(frentes, { taskStatus, deadlines, owners })
     } finally {
       setGerando(null)
@@ -91,23 +102,32 @@ export function Cronograma() {
   ]
 
   return (
-    <div className="mx-auto max-w-[1300px] px-8 py-12">
+    <div className={frenteId ? '' : 'mx-auto max-w-[1300px] px-8 py-12'}>
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-        <h2 className="mb-3 text-[32px] font-extrabold text-white">Cronograma</h2>
-        <p className="text-[15px] text-text-dim">
-          Prazo, responsável e status de cada tarefa das 3 frentes. Altere diretamente na tabela.
-        </p>
+          {frente ? (
+            <h3 className="mb-2 text-[22px] font-extrabold text-white">
+              Cronograma — {frente.navLabel}
+            </h3>
+          ) : (
+            <h2 className="mb-3 text-[32px] font-extrabold text-white">Cronograma</h2>
+          )}
+          <p className="text-[15px] text-text-dim">
+            Prazo, responsável e status de cada tarefa {frente ? 'desta frente' : 'das 3 frentes'}.
+            Altere diretamente na tabela.
+          </p>
         </div>
         <div className="flex shrink-0 flex-wrap gap-2">
           <Button size="sm" onClick={() => gerar('cronograma')} disabled={gerando !== null}>
             <FileDown className="size-4" />
             {gerando === 'cronograma' ? 'Gerando...' : 'Cronograma (PDF)'}
           </Button>
-          <Button size="sm" variant="outline" onClick={() => gerar('plano')} disabled={gerando !== null}>
-            <FileDown className="size-4" />
-            {gerando === 'plano' ? 'Gerando...' : 'Plano de ação completo (PDF)'}
-          </Button>
+          {!frenteId && (
+            <Button size="sm" variant="outline" onClick={() => gerar('plano')} disabled={gerando !== null}>
+              <FileDown className="size-4" />
+              {gerando === 'plano' ? 'Gerando...' : 'Plano de ação completo (PDF)'}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -130,6 +150,7 @@ export function Cronograma() {
       </div>
 
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+        {!frenteId && (
         <select
           value={frenteFilter}
           onChange={(e) => setFrenteFilter(e.target.value)}
@@ -141,6 +162,7 @@ export function Cronograma() {
             </option>
           ))}
         </select>
+        )}
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as 'todas' | TaskStatus)}
@@ -166,9 +188,11 @@ export function Cronograma() {
           <table className="w-full border-collapse text-left text-[13px]">
             <thead>
               <tr className="border-b border-line bg-surface-2">
-                <th className="px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-text-dim">
-                  Frente
-                </th>
+                {!frenteId && (
+                  <th className="px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-text-dim">
+                    Frente
+                  </th>
+                )}
                 <th className="px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-text-dim">
                   Tarefa
                 </th>
@@ -199,9 +223,11 @@ export function Cronograma() {
                       isLate && 'bg-danger/10',
                     )}
                   >
-                    <td className="whitespace-nowrap px-4 py-2.5 text-text-dim">
-                      {row.frenteLabel.replace(/^Frente \d+ — /, '')}
-                    </td>
+                    {!frenteId && (
+                      <td className="whitespace-nowrap px-4 py-2.5 text-text-dim">
+                        {row.frenteLabel.replace(/^Frente \d+ — /, '')}
+                      </td>
+                    )}
                     <td className="px-4 py-2.5">
                       <div className="font-semibold text-text">{row.label}</div>
                       <div className="text-[11px] text-text-dim">{row.subfaseTitle}</div>
@@ -272,7 +298,7 @@ export function Cronograma() {
               })}
               {rows.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-text-dim">
+                  <td colSpan={frenteId ? 5 : 6} className="px-4 py-8 text-center text-text-dim">
                     Nenhuma tarefa encontrada com esses filtros.
                   </td>
                 </tr>
