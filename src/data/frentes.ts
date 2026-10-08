@@ -280,8 +280,6 @@ export const frentes: Frente[] = [
           { id: 'f1-engenheiro', label: 'Contratar engenheiro para coordenar a estruturação operacional' },
           { id: 'f1-14', label: 'Desenvolver projeto showroom 100-300 m²' },
           { id: 'f1-15', label: 'Especificar infraestrutura showroom' },
-          { id: 'f1-16', label: 'Planejar estoque inicial de produtos' },
-          { id: 'f1-enxoval', label: 'Definir enxoval da loja' },
           { id: 'f1-mobiliario', label: 'Definir mobiliário e fachada da loja' },
           {
             id: 'f1-segregar-eng',
@@ -333,6 +331,8 @@ export const frentes: Frente[] = [
           { id: 'f1-25', label: 'Produzir catálogo comercial' },
           { id: 'f1-26', label: 'Estratégia de lançamento' },
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
+          { id: 'f1-16', label: 'Planejar estoque inicial de produtos' },
+          { id: 'f1-enxoval', label: 'Definir enxoval da loja' },
           { id: 'f1-mix-varejo', label: 'Definir mix de varejo entre Fast Aço e Fast Homes' },
         ],
       },
