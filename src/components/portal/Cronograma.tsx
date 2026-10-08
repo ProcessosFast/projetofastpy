@@ -25,7 +25,7 @@ function todayISO() {
 }
 
 export function Cronograma() {
-  const { deadlines, setDeadline, taskStatus, setTaskStatus } = useTasksStore()
+  const { deadlines, setDeadline, owners, setOwner, taskStatus, setTaskStatus } = useTasksStore()
   const [frenteFilter, setFrenteFilter] = React.useState('todas')
   const [statusFilter, setStatusFilter] = React.useState<'todas' | TaskStatus>('todas')
   const [search, setSearch] = React.useState('')
@@ -37,10 +37,14 @@ export function Cronograma() {
       ...t,
       status: taskStatus(t.id),
       deadline: deadlines[t.id] ?? '',
+      owner: owners[t.id] ?? '',
     }))
     .filter((t) => frenteFilter === 'todas' || t.frenteId === frenteFilter)
     .filter((t) => statusFilter === 'todas' || t.status === statusFilter)
-    .filter((t) => !search.trim() || t.label.toLowerCase().includes(search.trim().toLowerCase()))
+    .filter((t) => {
+      const q = search.trim().toLowerCase()
+      return !q || t.label.toLowerCase().includes(q) || t.owner.toLowerCase().includes(q)
+    })
     .sort((a, b) => {
       if (!a.deadline && !b.deadline) return 0
       if (!a.deadline) return 1
@@ -69,8 +73,7 @@ export function Cronograma() {
       <div className="mb-8">
         <h2 className="mb-3 text-[32px] font-extrabold text-white">Cronograma</h2>
         <p className="text-[15px] text-text-dim">
-          Prazo e status de cada tarefa das 3 frentes. Altere o status ou o prazo diretamente na
-          tabela.
+          Prazo, responsável e status de cada tarefa das 3 frentes. Altere diretamente na tabela.
         </p>
       </div>
 
@@ -119,7 +122,7 @@ export function Cronograma() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar tarefa..."
+          placeholder="Buscar tarefa ou responsável..."
           className="h-9 flex-1 rounded-md border border-line bg-surface-2 px-3 text-[13px] text-text placeholder:text-text-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fast-red/50"
         />
       </div>
@@ -134,6 +137,9 @@ export function Cronograma() {
                 </th>
                 <th className="px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-text-dim">
                   Tarefa
+                </th>
+                <th className="px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-text-dim">
+                  Responsável
                 </th>
                 <th className="px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-text-dim">
                   Prazo
@@ -165,6 +171,15 @@ export function Cronograma() {
                     <td className="px-4 py-2.5">
                       <div className="font-semibold text-text">{row.label}</div>
                       <div className="text-[11px] text-text-dim">{row.subfaseTitle}</div>
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <input
+                        type="text"
+                        value={row.owner}
+                        onChange={(e) => setOwner(row.id, e.target.value)}
+                        placeholder="Quem fará?"
+                        className="h-8 w-40 rounded-md border border-line bg-surface-2 px-2 text-[12.5px] text-text placeholder:text-text-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fast-red/50"
+                      />
                     </td>
                     <td className="whitespace-nowrap px-4 py-2.5">
                       <input
@@ -223,7 +238,7 @@ export function Cronograma() {
               })}
               {rows.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-text-dim">
+                  <td colSpan={6} className="px-4 py-8 text-center text-text-dim">
                     Nenhuma tarefa encontrada com esses filtros.
                   </td>
                 </tr>

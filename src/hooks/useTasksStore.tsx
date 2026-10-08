@@ -44,6 +44,8 @@ interface TasksStoreValue {
   overallStats: () => { done: number; total: number; pct: number }
   deadlines: Record<string, string>
   setDeadline: (taskId: string, date: string) => void
+  owners: Record<string, string>
+  setOwner: (taskId: string, owner: string) => void
   taskStatus: (taskId: string) => TaskStatus
   setTaskStatus: (taskId: string, status: TaskStatus) => void
 }
@@ -68,6 +70,9 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     'py-portal-deadlines',
     {},
   )
+  const [owners, setOwners] = useLocalStorage<Record<string, string>>('py-portal-owners', {
+    'f1-estrutura-sistemica': 'Marcelo / Guilherme',
+  })
   const [statusMap, setStatusMap] = useLocalStorage<Record<string, TaskStatus>>(
     'py-portal-task-status',
     {},
@@ -205,6 +210,20 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     [setDeadlines],
   )
 
+  const setOwner = React.useCallback(
+    (taskId: string, owner: string) => {
+      setOwners((prev) => {
+        if (!owner.trim()) {
+          const next = { ...prev }
+          delete next[taskId]
+          return next
+        }
+        return { ...prev, [taskId]: owner }
+      })
+    },
+    [setOwners],
+  )
+
   const taskStatus = React.useCallback(
     (taskId: string): TaskStatus => statusMap[taskId] ?? (checked[taskId] ? 'concluido' : 'nao_iniciado'),
     [statusMap, checked],
@@ -286,6 +305,8 @@ export function TasksStoreProvider({ children }: { children: React.ReactNode }) 
     overallStats,
     deadlines,
     setDeadline,
+    owners,
+    setOwner,
     taskStatus,
     setTaskStatus,
   }
