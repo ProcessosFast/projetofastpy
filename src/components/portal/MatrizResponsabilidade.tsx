@@ -10,6 +10,8 @@ const sectorColor: Record<Sector, string> = {
   'Comercial/Marketing': 'border-[#7c3aed]/40 text-[#a78bfa] bg-[#7c3aed]/10',
   'RH/Operações': 'border-[#db2777]/40 text-[#f472b6] bg-[#db2777]/10',
   'Comércio Exterior/Logística': 'border-[#0891b2]/40 text-[#22d3ee] bg-[#0891b2]/10',
+  'TI/Sistemas': 'border-[#4f46e5]/40 text-[#818cf8] bg-[#4f46e5]/10',
+  'A definir': 'border-line text-text-dim bg-surface-2',
 }
 
 export function MatrizResponsabilidade() {

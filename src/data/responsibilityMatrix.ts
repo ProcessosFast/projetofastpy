@@ -1,3 +1,5 @@
+import { frentes, type Frente } from '@/data/frentes'
+
 export type Sector =
   | 'Jurídico'
   | 'Contábil/Fiscal'
@@ -6,9 +8,11 @@ export type Sector =
   | 'Comercial/Marketing'
   | 'RH/Operações'
   | 'Comércio Exterior/Logística'
+  | 'TI/Sistemas'
+  | 'A definir'
 
 export interface ResponsibilityRow {
-  frenteId: 'frente1' | 'frente2' | 'frente3'
+  frenteId: Frente['id']
   frenteLabel: string
   area: string
   sector: Sector
@@ -22,35 +26,55 @@ export const sectors: Sector[] = [
   'Comercial/Marketing',
   'RH/Operações',
   'Comércio Exterior/Logística',
+  'TI/Sistemas',
+  'A definir',
 ]
 
-export const responsibilityMatrix: ResponsibilityRow[] = [
-  // Frente 1 — Loja FAST
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Administrativo & Societário', sector: 'Jurídico' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Fiscal & Tributária', sector: 'Contábil/Fiscal' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Jurídico & Contratos', sector: 'Jurídico' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Comércio Exterior & Importação', sector: 'Comércio Exterior/Logística' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Engenharia', sector: 'Engenharia' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Imóvel & Licenciamento', sector: 'Engenharia' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Financeiro & CAPEX', sector: 'Financeiro' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Estrutura Loja', sector: 'Comercial/Marketing' },
+// Setor responsável por seção (título sem o número). Seção nova sem setor aparece como "A definir".
+const sectorByArea: Record<Frente['id'], Record<string, Sector>> = {
+  frente1: {
+    'Administrativo & Societário': 'Jurídico',
+    'Fiscal & Tributária': 'Contábil/Fiscal',
+    'Jurídico & Contratos': 'Jurídico',
+    'Comércio Exterior & Importação': 'Comércio Exterior/Logística',
+    Engenharia: 'Engenharia',
+    'Imóvel & Licenciamento': 'Engenharia',
+    'Financeiro & CAPEX': 'Financeiro',
+    'Estrutura Loja': 'RH/Operações',
+    'Estruturação Sistêmica': 'TI/Sistemas',
+    Logística: 'Comércio Exterior/Logística',
+    'Pessoas & Contratação': 'RH/Operações',
+    Marketing: 'Comercial/Marketing',
+  },
+  frente2: {
+    'Estrutura Jurídica & Societária': 'Jurídico',
+    'Parecer Fiscal & Tributário': 'Contábil/Fiscal',
+    'Prospecção de Terrenos (10.000-20.000 m²)': 'Engenharia',
+    'Projetos & Licenciamento': 'Engenharia',
+    'Construção & Operação Galpão 1': 'Engenharia',
+    'Financeiro & Contábil': 'Financeiro',
+  },
+  frente3: {
+    'Estrutura Jurídica & Societária': 'Jurídico',
+    'Programa de Maquila (Lei 7.547/2025) — CRÍTICO': 'Jurídico',
+    'Parecer Fiscal & Tributário': 'Contábil/Fiscal',
+    'Engenharia & Especificação de Máquinas': 'Engenharia',
+    'Localização & Infraestrutura Industrial': 'Engenharia',
+    'Cronograma & Construção Galpão 1': 'Engenharia',
+    'Contratações & Operação': 'RH/Operações',
+    'Logística & Exportação Brasil': 'Comércio Exterior/Logística',
+    'Financeiro & Viabilidade': 'Financeiro',
+  },
+}
 
-  // Frente 2 — Incorporadora
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Estrutura Jurídica & Societária', sector: 'Jurídico' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Parecer Fiscal & Tributário', sector: 'Contábil/Fiscal' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Prospecção de Terrenos (10.000-20.000 m²)', sector: 'Engenharia' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Projetos & Licenciamento', sector: 'Engenharia' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Construção & Operação Galpão 1', sector: 'Engenharia' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Financeiro & Contábil', sector: 'Financeiro' },
-
-  // Frente 3 — MaxSteel
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Estrutura Jurídica & Societária', sector: 'Jurídico' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Programa de Maquila (Lei 7.547/2025) — CRÍTICO', sector: 'Jurídico' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Parecer Fiscal & Tributário', sector: 'Contábil/Fiscal' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Engenharia & Especificação de Máquinas', sector: 'Engenharia' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Localização & Infraestrutura Industrial', sector: 'Engenharia' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Cronograma & Construção Galpão 1', sector: 'Engenharia' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Contratações & Operação', sector: 'RH/Operações' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Logística & Exportação Brasil', sector: 'Comércio Exterior/Logística' },
-  { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Financeiro & Viabilidade', sector: 'Financeiro' },
-]
+export const responsibilityMatrix: ResponsibilityRow[] = frentes.flatMap((frente) =>
+  frente.subfases.map((subfase) => {
+    const area = subfase.title.replace(/^\d+\.\s*/, '')
+    return {
+      frenteId: frente.id,
+      frenteLabel: frente.navLabel,
+      area,
+      sector: sectorByArea[frente.id][area] ?? 'A definir',
+    }
+  }),
+)
