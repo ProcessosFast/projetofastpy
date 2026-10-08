@@ -33,15 +33,15 @@ export const responsibilityMatrix: ResponsibilityRow[] = [
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Engenharia & Operacional', sector: 'Engenharia' },
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Imóvel & Licenciamento', sector: 'Engenharia' },
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Financeiro & CAPEX', sector: 'Financeiro' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Comercial & Mercado', sector: 'Comercial/Marketing' },
+  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Estrutura Loja', sector: 'Comercial/Marketing' },
 
-  // Frente 2 — Imobiliária
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Imobiliária', area: 'Estrutura Jurídica & Societária', sector: 'Jurídico' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Imobiliária', area: 'Parecer Fiscal & Tributário', sector: 'Contábil/Fiscal' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Imobiliária', area: 'Prospecção de Terrenos (10.000-20.000 m²)', sector: 'Engenharia' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Imobiliária', area: 'Projetos & Licenciamento', sector: 'Engenharia' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Imobiliária', area: 'Construção & Operação Galpão 1', sector: 'Engenharia' },
-  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Imobiliária', area: 'Financeiro & Contábil', sector: 'Financeiro' },
+  // Frente 2 — Incorporadora
+  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Estrutura Jurídica & Societária', sector: 'Jurídico' },
+  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Parecer Fiscal & Tributário', sector: 'Contábil/Fiscal' },
+  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Prospecção de Terrenos (10.000-20.000 m²)', sector: 'Engenharia' },
+  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Projetos & Licenciamento', sector: 'Engenharia' },
+  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Construção & Operação Galpão 1', sector: 'Engenharia' },
+  { frenteId: 'frente2', frenteLabel: 'Frente 2 — Incorporadora', area: 'Financeiro & Contábil', sector: 'Financeiro' },
 
   // Frente 3 — MaxSteel
   { frenteId: 'frente3', frenteLabel: 'Frente 3 — MaxSteel', area: 'Estrutura Jurídica & Societária', sector: 'Jurídico' },

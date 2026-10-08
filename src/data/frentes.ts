@@ -324,11 +324,10 @@ export const frentes: Frente[] = [
         ],
       },
       {
-        title: '8. Comercial & Mercado',
+        title: '8. Estrutura Loja',
         tasks: [
-          { id: 'f1-24', label: 'Contratar equipe local (gerente, vendedores, suporte)' },
           { id: 'f1-25', label: 'Produzir catálogo comercial' },
-          { id: 'f1-26', label: 'Planejar estratégia market launch' },
+          { id: 'f1-26', label: 'Estratégia de lançamento' },
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
           { id: 'f1-mix-varejo', label: 'Definir mix de varejo entre Fast Aço e Fast Homes' },
         ],
@@ -365,6 +364,7 @@ export const frentes: Frente[] = [
             description: 'Empresas de recrutamento, indicações, grupos de vagas no WhatsApp e no Facebook.',
           },
           { id: 'f1-vendedores', label: 'Contratar 2 vendedores' },
+          { id: 'f1-caixa', label: 'Contratar 1 pessoa para o caixa da loja' },
           { id: 'f1-operador-empilhadeira', label: 'Contratar operador de empilhadeira + ajudante' },
         ],
       },
@@ -376,8 +376,8 @@ export const frentes: Frente[] = [
   },
   {
     id: 'frente2',
-    navLabel: 'Frente 2 — Imobiliária',
-    title: 'Frente 2 — Empresa Imobiliária Paraguai',
+    navLabel: 'Frente 2 — Incorporadora',
+    title: 'Frente 2 — Incorporadora Paraguai',
     subtitle: 'Infraestrutura & Galpões',
     meta: 'Meta: Galpão 1 jan-fev 2027',
     status: '5% progresso',

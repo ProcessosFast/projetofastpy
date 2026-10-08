@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 const FRENTE_OPTIONS = [
   { id: 'todas', label: 'Todas as frentes' },
   { id: 'frente1', label: 'Frente 1 — Loja FAST' },
-  { id: 'frente2', label: 'Frente 2 — Imobiliária' },
+  { id: 'frente2', label: 'Frente 2 — Incorporadora' },
   { id: 'frente3', label: 'Frente 3 — MaxSteel' },
 ]
 
