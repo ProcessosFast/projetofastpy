@@ -247,10 +247,20 @@ export const frentes: Frente[] = [
             label: 'Contratar contador local',
             description: 'O contrato precisa incluir a gestão da folha de pagamento dos funcionários.',
           },
-          { id: 'f1-6', label: 'Definir modelo tributário (Regime Simplificado vs. IRE GENERAL)' },
+          {
+            id: 'f1-6',
+            label: 'Definir modelo tributário (Regime Simplificado vs. IRE GENERAL)',
+            description:
+              'Definir o modelo tributário aplicável à operação, considerando natureza das vendas, importação, comercialização local e prestação de serviços.',
+          },
           { id: 'f1-7', label: 'Licença municipal en Ciudad del Este' },
           { id: 'f1-8', label: 'Inscrição no Instituto Previdência Social' },
-          { id: 'f1-faturamento', label: 'Estruturar faturamento e emissão de documentos fiscais' },
+          {
+            id: 'f1-faturamento',
+            label: 'Estruturar faturamento e emissão de documentos fiscais',
+            description:
+              'Definir o modelo de faturamento da loja, documentos fiscais aplicáveis, emissão e integração com o sistema.',
+          },
           { id: 'f1-nota-remision', label: 'Estudar modelo de Nota de Remisión' },
         ],
       },
@@ -265,6 +275,11 @@ export const frentes: Frente[] = [
       {
         title: '4. Comércio Exterior & Importação',
         tasks: [
+          {
+            id: 'f1-fluxo-importacao',
+            label: 'Mapear o fluxo de importação',
+            description: 'Documentação, custos, impostos, despachante e responsabilidades envolvidas.',
+          },
           {
             id: 'f1-11',
             label: 'Contratar despachante aduaneiro',
