@@ -277,7 +277,6 @@ export const frentes: Frente[] = [
       {
         title: '5. Engenharia & Operacional',
         tasks: [
-          { id: 'f1-engenheiro', label: 'Contratar engenheiro para coordenar a estruturação operacional' },
           { id: 'f1-14', label: 'Desenvolver projeto showroom 100-300 m²' },
           { id: 'f1-15', label: 'Especificar infraestrutura showroom' },
           {
@@ -328,6 +327,11 @@ export const frentes: Frente[] = [
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
           { id: 'f1-16', label: 'Planejar estoque inicial e definir enxoval da loja' },
           { id: 'f1-mobiliario', label: 'Definir mobiliário e fachada da loja' },
+          {
+            id: 'f1-equipamentos',
+            label: 'Definir equipamentos que serão utilizados na loja',
+            description: 'Computadores, impressora etc.',
+          },
           { id: 'f1-mix-varejo', label: 'Definir mix de varejo entre Fast Aço e Fast Homes' },
           { id: 'f1-internet', label: 'Contratar empresa de internet para instalação na loja e no galpão' },
           { id: 'f1-luz', label: 'Ligar energia elétrica da loja (ANDE)' },
