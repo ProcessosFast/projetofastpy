@@ -300,7 +300,7 @@ export const frentes: Frente[] = [
         title: '7. Financeiro & CAPEX',
         tasks: [
           { id: 'f1-orcamento-loja', label: 'Criar orçamento completo da loja' },
-          { id: 'f1-20', label: 'Orçamento reforma/obra showroom' },
+          { id: 'f1-20', label: 'Orçamento mobiliário e equipamentos' },
           { id: 'f1-21', label: 'Orçamento estoque inicial' },
           { id: 'f1-23', label: 'Abertura conta bancária empresa' },
           {
