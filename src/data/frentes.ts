@@ -298,7 +298,7 @@ export const frentes: Frente[] = [
             id: 'f1-reforma',
             label: 'Reforma',
             description:
-              'Decidir se contrata equipe local ou envia equipe Fast Brasil. Escopo: pintura, montagem de móveis e estrutura do galpão.',
+              'Decidir se contrata equipe local ou envia equipe Fast Brasil. Escopo: pintura das paredes da loja, pintura do chão do galpão, montagem de móveis e estrutura do galpão.',
           },
         ],
       },
