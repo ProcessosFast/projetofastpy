@@ -430,6 +430,7 @@ export const frentes: Frente[] = [
             label: 'Ação para abertura da loja',
             description: 'Brindes a serem estudados conforme a cultura local.',
           },
+          { id: 'f1-mkt-refletor', label: 'Instalar refletor para a inauguração' },
         ],
       },
     ],
