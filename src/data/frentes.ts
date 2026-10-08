@@ -296,11 +296,6 @@ export const frentes: Frente[] = [
           { id: 'f1-17', label: 'Prospectar imóvel em Ciudad del Este' },
           { id: 'f1-18', label: 'Due diligence & negociação contrato aluguel' },
           { id: 'f1-19', label: 'Obter alvará de construção/reforma' },
-          {
-            id: 'f1-trocar-imobiliaria',
-            label: 'Trocar de imobiliária para compra ou aluguel do galpão',
-            description: 'Avaliar também incorporadoras.',
-          },
         ],
       },
       {
