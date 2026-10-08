@@ -419,7 +419,11 @@ export const frentes: Frente[] = [
             label: 'TV para usar na feira e depois levar para a loja',
             description: 'Possibilidade — a avaliar.',
           },
-          { id: 'f1-26', label: 'Estratégia de lançamento' },
+          {
+            id: 'f1-26',
+            label: 'Estratégia de lançamento',
+            description: 'Influenciadores, coquetel de lançamento e imprensa local.',
+          },
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
           {
             id: 'f1-mkt-abertura',
