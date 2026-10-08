@@ -417,7 +417,7 @@ export const frentes: Frente[] = [
           {
             id: 'f1-mkt-tv',
             label: 'TV para usar na feira e depois levar para a loja',
-            description: 'Possibilidade — a avaliar.',
+            description: 'Definida a compra de uma TV de 65".',
           },
           {
             id: 'f1-26',
