@@ -382,7 +382,34 @@ export const frentes: Frente[] = [
       },
       {
         title: '12. Marketing',
-        tasks: [],
+        tasks: [
+          { id: 'f1-mkt-catalogo-homes', label: 'Catálogo Fast Homes traduzido' },
+          { id: 'f1-mkt-catalogo-mix', label: 'Catálogo do mix de produtos' },
+          { id: 'f1-mkt-amostras', label: 'Amostras de produtos para a loja' },
+          {
+            id: 'f1-mkt-personas',
+            label: 'Montar as personas de atendimento no PY',
+            description: 'Linguagem adaptada à cultura paraguaia (Loja e Fast Homes).',
+          },
+          {
+            id: 'f1-mkt-trafego',
+            label: 'Tráfego pago para a loja',
+            description: 'Instagram, Facebook, Google e YouTube.',
+          },
+          { id: 'f1-mkt-fachada', label: 'Fachada da loja' },
+          { id: 'f1-mkt-concorrencia', label: 'Mapeamento da concorrência em Foz do Iguaçu' },
+          { id: 'f1-mkt-instagram', label: 'Instagram da loja PY' },
+          {
+            id: 'f1-mkt-tv',
+            label: 'TV para usar na feira e depois levar para a loja',
+            description: 'Possibilidade — a avaliar.',
+          },
+          {
+            id: 'f1-mkt-abertura',
+            label: 'Ação para abertura da loja',
+            description: 'Brindes a serem estudados conforme a cultura local.',
+          },
+        ],
       },
     ],
   },
