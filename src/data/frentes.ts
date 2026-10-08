@@ -321,9 +321,6 @@ export const frentes: Frente[] = [
       {
         title: '8. Estrutura Loja',
         tasks: [
-          { id: 'f1-25', label: 'Produzir catálogo comercial' },
-          { id: 'f1-26', label: 'Estratégia de lançamento' },
-          { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
           { id: 'f1-16', label: 'Planejar estoque inicial e definir enxoval da loja' },
           { id: 'f1-mobiliario', label: 'Definir mobiliário e fachada da loja' },
           {
@@ -404,6 +401,8 @@ export const frentes: Frente[] = [
             label: 'TV para usar na feira e depois levar para a loja',
             description: 'Possibilidade — a avaliar.',
           },
+          { id: 'f1-26', label: 'Estratégia de lançamento' },
+          { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
           {
             id: 'f1-mkt-abertura',
             label: 'Ação para abertura da loja',

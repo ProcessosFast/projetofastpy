@@ -1,11 +1,14 @@
 import * as React from 'react'
+import { FileDown } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { ChecklistSection } from '@/components/portal/ChecklistSection'
 import { FluxogramaFrente } from '@/components/portal/FluxogramaFrente'
 import type { Frente, InfoModal } from '@/data/frentes'
 import { useTasksStore } from '@/hooks/useTasksStore'
+import { baixarPlanoDeAcaoPdf } from '@/lib/relatorioPdf'
 import { cn } from '@/lib/utils'
 
 interface FrenteViewProps {
@@ -14,7 +17,8 @@ interface FrenteViewProps {
 }
 
 export function FrenteView({ frente, onOpenInfo }: FrenteViewProps) {
-  const { frenteStats } = useTasksStore()
+  const { frenteStats, taskStatus, deadlines, owners } = useTasksStore()
+  const [gerando, setGerando] = React.useState(false)
   const { done, total, pct } = frenteStats(frente.id)
   const [view, setView] = React.useState<'checklist' | 'mapa'>('checklist')
 
@@ -31,13 +35,31 @@ export function FrenteView({ frente, onOpenInfo }: FrenteViewProps) {
 
   return (
     <div className="mx-auto max-w-[1200px] px-8 py-12">
-      <div className="mb-12">
-        <h2 className="mb-4 text-[32px] font-extrabold text-white">
-          {frente.title}
-        </h2>
-        <p className="text-[15px] text-text-dim">
-          {frente.subtitle} | {frente.meta}
-        </p>
+      <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h2 className="mb-4 text-[32px] font-extrabold text-white">
+            {frente.title}
+          </h2>
+          <p className="text-[15px] text-text-dim">
+            {frente.subtitle} | {frente.meta}
+          </p>
+        </div>
+        <Button
+          size="sm"
+          className="shrink-0"
+          disabled={gerando}
+          onClick={async () => {
+            setGerando(true)
+            try {
+              await baixarPlanoDeAcaoPdf([frente], { taskStatus, deadlines, owners })
+            } finally {
+              setGerando(false)
+            }
+          }}
+        >
+          <FileDown className="size-4" />
+          {gerando ? 'Gerando...' : 'Baixar plano de ação (PDF)'}
+        </Button>
       </div>
 
       <Card

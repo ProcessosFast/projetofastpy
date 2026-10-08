@@ -1,8 +1,11 @@
 import * as React from 'react'
+import { FileDown } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { allTasksFlat } from '@/data/frentes'
+import { allTasksFlat, frentes } from '@/data/frentes'
 import { STATUS_LABEL, STATUS_PCT, useTasksStore, type TaskStatus } from '@/hooks/useTasksStore'
+import { baixarCronogramaPdf, baixarPlanoDeAcaoPdf } from '@/lib/relatorioPdf'
 import { cn } from '@/lib/utils'
 
 const FRENTE_OPTIONS = [
@@ -29,6 +32,7 @@ export function Cronograma() {
   const [frenteFilter, setFrenteFilter] = React.useState('todas')
   const [statusFilter, setStatusFilter] = React.useState<'todas' | TaskStatus>('todas')
   const [search, setSearch] = React.useState('')
+  const [gerando, setGerando] = React.useState<'cronograma' | 'plano' | null>(null)
 
   const today = todayISO()
 
@@ -61,6 +65,24 @@ export function Cronograma() {
     return dl && dl < today && taskStatus(t.id) !== 'concluido'
   }).length
 
+  const filtrosTexto = [
+    FRENTE_OPTIONS.find((o) => o.id === frenteFilter)?.label,
+    STATUS_OPTIONS.find((o) => o.id === statusFilter)?.label,
+    search.trim() && `busca "${search.trim()}"`,
+  ]
+    .filter(Boolean)
+    .join(', ')
+
+  const gerar = async (tipo: 'cronograma' | 'plano') => {
+    setGerando(tipo)
+    try {
+      if (tipo === 'cronograma') await baixarCronogramaPdf(rows, filtrosTexto)
+      else await baixarPlanoDeAcaoPdf(frentes, { taskStatus, deadlines, owners })
+    } finally {
+      setGerando(null)
+    }
+  }
+
   const summary = [
     { label: 'Total de tarefas', value: totalTasks },
     { label: 'Concluídas', value: concluidas },
@@ -70,11 +92,23 @@ export function Cronograma() {
 
   return (
     <div className="mx-auto max-w-[1300px] px-8 py-12">
-      <div className="mb-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
         <h2 className="mb-3 text-[32px] font-extrabold text-white">Cronograma</h2>
         <p className="text-[15px] text-text-dim">
           Prazo, responsável e status de cada tarefa das 3 frentes. Altere diretamente na tabela.
         </p>
+        </div>
+        <div className="flex shrink-0 flex-wrap gap-2">
+          <Button size="sm" onClick={() => gerar('cronograma')} disabled={gerando !== null}>
+            <FileDown className="size-4" />
+            {gerando === 'cronograma' ? 'Gerando...' : 'Cronograma (PDF)'}
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => gerar('plano')} disabled={gerando !== null}>
+            <FileDown className="size-4" />
+            {gerando === 'plano' ? 'Gerando...' : 'Plano de ação completo (PDF)'}
+          </Button>
+        </div>
       </div>
 
       <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
