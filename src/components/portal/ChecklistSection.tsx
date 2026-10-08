@@ -86,6 +86,9 @@ export function ChecklistSection({
       </button>
       {!collapsed && (
       <div className="flex flex-col">
+        {totalCount === 0 && (
+          <p className="text-[13px] text-text-dim">Atividades a definir.</p>
+        )}
         {subfase.tasks.map((task, i) => {
           const checked = isChecked(task.id)
           const choice = task.info?.context ? choices[task.info.context] : undefined

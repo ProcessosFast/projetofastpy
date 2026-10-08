@@ -246,6 +246,11 @@ export const frentes: Frente[] = [
           { id: 'f1-7', label: 'Licença municipal en Ciudad del Este' },
           { id: 'f1-8', label: 'Inscrição no Instituto Previdência Social' },
           { id: 'f1-faturamento', label: 'Estruturar faturamento e emissão de documentos fiscais' },
+          {
+            id: 'f1-nota-remision',
+            label: 'Estudar modelo de Nota de Remisión',
+            description: 'Documento de transporte de mercadorias.',
+          },
         ],
       },
       {
@@ -275,6 +280,13 @@ export const frentes: Frente[] = [
           { id: 'f1-14', label: 'Desenvolver projeto showroom 100-300 m²' },
           { id: 'f1-15', label: 'Especificar infraestrutura showroom' },
           { id: 'f1-16', label: 'Planejar estoque inicial de produtos' },
+          { id: 'f1-enxoval', label: 'Definir enxoval da loja' },
+          { id: 'f1-mobiliario', label: 'Definir mobiliário e fachada da loja' },
+          {
+            id: 'f1-segregar-eng',
+            label: 'Separar a engenharia operacional em duas frentes',
+            description: 'Showroom da loja e projetos de engenharia.',
+          },
           {
             id: 'f1-reforma',
             label: 'Reforma',
@@ -288,15 +300,36 @@ export const frentes: Frente[] = [
           { id: 'f1-17', label: 'Prospectar imóvel em Ciudad del Este' },
           { id: 'f1-18', label: 'Due diligence & negociação contrato aluguel' },
           { id: 'f1-19', label: 'Obter alvará de construção/reforma' },
+          {
+            id: 'f1-trocar-imobiliaria',
+            label: 'Trocar de imobiliária para compra ou aluguel do galpão',
+            description: 'Avaliar também incorporadoras.',
+          },
         ],
       },
       {
         title: '7. Financeiro & CAPEX',
         tasks: [
+          { id: 'f1-orcamento-loja', label: 'Criar orçamento completo da loja' },
           { id: 'f1-20', label: 'Orçamento reforma/obra showroom' },
           { id: 'f1-21', label: 'Orçamento estoque inicial' },
           { id: 'f1-22', label: 'Contratar contador local' },
           { id: 'f1-23', label: 'Abertura conta bancária empresa' },
+          {
+            id: 'f1-pagamento-cartao',
+            label: 'Definir sistema de pagamento com cartão',
+            description: 'Comparar Bancard, Ueno e Dinelco — taxas e modelos de contrato.',
+          },
+          {
+            id: 'f1-moedas',
+            label: 'Definir moedas aceitas (real, dólar e guarani)',
+            description: 'Regra de cotação e conversão; avaliar uma conta bancária por moeda.',
+          },
+          {
+            id: 'f1-cashback',
+            label: 'Estudar cashback e reintegro',
+            description: 'Benefícios conforme a bandeira e a modalidade do cartão.',
+          },
         ],
       },
       {
@@ -306,7 +339,47 @@ export const frentes: Frente[] = [
           { id: 'f1-25', label: 'Produzir catálogo comercial' },
           { id: 'f1-26', label: 'Planejar estratégia market launch' },
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
+          { id: 'f1-mix-varejo', label: 'Definir mix de varejo entre Fast Aço e Fast Homes' },
         ],
+      },
+      {
+        title: '9. Estruturação Sistêmica',
+        tasks: [
+          {
+            id: 'f1-estrutura-sistemica',
+            label: 'Estruturar sistemas, funis de venda, acessos e criação da loja',
+            description: 'Responsáveis: Marcelo / Guilherme.',
+          },
+          { id: 'f1-codigos', label: 'Estudar codificação dos produtos e tradução para o guarani' },
+        ],
+      },
+      {
+        title: '10. Logística',
+        tasks: [
+          { id: 'f1-caminhao', label: 'Estudar compra de caminhão próprio para o Paraguai' },
+          {
+            id: 'f1-agregados',
+            label: 'Buscar agregados para transporte',
+            description: 'Objetivo: ter um prestador de serviço fixo.',
+          },
+          { id: 'f1-empilhadeira', label: 'Pesquisar empresas de aluguel de empilhadeira' },
+        ],
+      },
+      {
+        title: '11. Pessoas & Contratação',
+        tasks: [
+          {
+            id: 'f1-captacao',
+            label: 'Mapear canais de captação de pessoal',
+            description: 'Empresas de recrutamento, indicações, grupos de vagas no WhatsApp e no Facebook.',
+          },
+          { id: 'f1-vendedores', label: 'Contratar 2 vendedores' },
+          { id: 'f1-operador-empilhadeira', label: 'Contratar operador de empilhadeira + ajudante' },
+        ],
+      },
+      {
+        title: '12. Marketing',
+        tasks: [],
       },
     ],
   },
