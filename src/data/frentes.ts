@@ -425,6 +425,7 @@ export const frentes: Frente[] = [
           },
           { id: 'f1-mkt-concorrencia', label: 'Mapeamento da concorrência em Foz do Iguaçu' },
           { id: 'f1-mkt-instagram', label: 'Instagram da loja PY' },
+          { id: 'f1-mkt-banner', label: 'Banner de comunicação' },
           {
             id: 'f1-mkt-tv',
             label: 'TV para usar na feira e depois levar para a loja',
