@@ -275,7 +275,7 @@ export const frentes: Frente[] = [
         ],
       },
       {
-        title: '5. Engenharia & Operacional',
+        title: '5. Engenharia',
         tasks: [
           { id: 'f1-14', label: 'Desenvolver projeto showroom 100-300 m²' },
           { id: 'f1-15', label: 'Especificar infraestrutura showroom' },

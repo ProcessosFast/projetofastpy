@@ -30,7 +30,7 @@ export const responsibilityMatrix: ResponsibilityRow[] = [
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Fiscal & Tributária', sector: 'Contábil/Fiscal' },
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Jurídico & Contratos', sector: 'Jurídico' },
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Comércio Exterior & Importação', sector: 'Comércio Exterior/Logística' },
-  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Engenharia & Operacional', sector: 'Engenharia' },
+  { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Engenharia', sector: 'Engenharia' },
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Imóvel & Licenciamento', sector: 'Engenharia' },
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Financeiro & CAPEX', sector: 'Financeiro' },
   { frenteId: 'frente1', frenteLabel: 'Frente 1 — Loja FAST', area: 'Estrutura Loja', sector: 'Comercial/Marketing' },
