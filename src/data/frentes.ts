@@ -507,7 +507,7 @@ export const frentes: Frente[] = [
       {
         title: '5. Localização & Infraestrutura Industrial',
         tasks: [
-          { id: 'f3-20', label: 'Definir localização: Galpão 1 alugado da Imobiliária' },
+          { id: 'f3-20', label: 'Definir localização: Galpão 1 alugado da Incorporadora' },
           { id: 'f3-21', label: 'Desenvolver layout: 4 linhas de produção' },
           { id: 'f3-22', label: 'Especificar infraestrutura: Energia | Água | Ar comprimido' },
         ],
