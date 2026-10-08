@@ -5,11 +5,18 @@ import { Redis } from '@upstash/redis'
 const COLLECTIONS = ['checked', 'status', 'deadlines', 'owners', 'choices', 'lists', 'decisions']
 const INIT_KEY = 'py:initialized'
 
-const redis = new Redis({
-  url: process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN,
-  automaticDeserialization: false,
-})
+// A integração da Vercel pode criar as variáveis com prefixo (ex.: STORAGE_KV_REST_API_URL).
+function findEnv(suffixes) {
+  const name = Object.keys(process.env).find(
+    (key) => suffixes.some((suffix) => key.endsWith(suffix)) && !key.includes('READ_ONLY'),
+  )
+  return name ? process.env[name] : undefined
+}
+
+const url = findEnv(['KV_REST_API_URL', 'REDIS_REST_URL'])
+const token = findEnv(['KV_REST_API_TOKEN', 'REDIS_REST_TOKEN'])
+
+const redis = url && token ? new Redis({ url, token, automaticDeserialization: false }) : null
 
 async function readAll() {
   const pipe = redis.pipeline()
@@ -49,6 +56,11 @@ async function applyPatches(patches) {
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store')
+  if (!redis) {
+    // Só os nomes, nunca os valores, para diagnosticar a configuração.
+    const names = Object.keys(process.env).filter((k) => /KV|REDIS|UPSTASH/i.test(k))
+    return res.status(503).json({ error: 'redis not configured', envNames: names })
+  }
   try {
     if (req.method === 'GET') {
       return res.status(200).json(await readAll())
