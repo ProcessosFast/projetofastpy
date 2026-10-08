@@ -349,6 +349,8 @@ export const frentes: Frente[] = [
             description: 'Responsáveis: Marcelo / Guilherme.',
           },
           { id: 'f1-codigos', label: 'Estudar codificação dos produtos e tradução para o guarani' },
+          { id: 'f1-acesso-vendedores', label: 'Criar acessos para os vendedores' },
+          { id: 'f1-treinamento-portal', label: 'Treinar os vendedores no uso do portal' },
         ],
       },
       {
