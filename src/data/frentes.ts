@@ -379,6 +379,12 @@ export const frentes: Frente[] = [
             description: 'Objetivo: ter um prestador de serviço fixo.',
           },
           { id: 'f1-empilhadeira', label: 'Pesquisar empresas de aluguel de empilhadeira' },
+          { id: 'f1-hotel-diretoria', label: 'Reservar hotel para todas as idas da diretoria ao Paraguai' },
+          {
+            id: 'f1-hotel-feira',
+            label: 'Reservar hotel para todos os participantes da feira',
+            description: 'Paraguay Business Week 2026 (11-13 nov).',
+          },
         ],
       },
       {
