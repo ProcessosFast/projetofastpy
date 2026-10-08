@@ -292,7 +292,6 @@ export const frentes: Frente[] = [
         tasks: [
           { id: 'f1-17', label: 'Prospectar imóvel em Ciudad del Este' },
           { id: 'f1-18', label: 'Due diligence & negociação contrato aluguel' },
-          { id: 'f1-19', label: 'Obter alvará de construção/reforma' },
         ],
       },
       {
