@@ -343,11 +343,7 @@ export const frentes: Frente[] = [
       {
         title: '9. Estruturação Sistêmica',
         tasks: [
-          {
-            id: 'f1-estrutura-sistemica',
-            label: 'Estruturar sistemas, funis de venda, acessos e criação da loja',
-            description: 'Responsáveis: Marcelo / Guilherme.',
-          },
+          { id: 'f1-estrutura-sistemica', label: 'Estruturar sistemas, funis de venda, acessos e criação da loja' },
           { id: 'f1-codigos', label: 'Estudar codificação dos produtos e tradução para o guarani' },
           { id: 'f1-acesso-vendedores', label: 'Criar acessos para os vendedores' },
           { id: 'f1-treinamento-portal', label: 'Treinar os vendedores no uso do portal' },
