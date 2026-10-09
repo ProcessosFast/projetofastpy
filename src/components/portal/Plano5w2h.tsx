@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { FileDown } from 'lucide-react'
+import { FileDown, FileSpreadsheet } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import type { Frente } from '@/data/frentes'
 import { useTasksStore, type Plano5w2hField } from '@/hooks/useTasksStore'
+import { baixar5w2hExcel } from '@/lib/relatorioExcel'
 import { baixar5w2hPdf } from '@/lib/relatorioPdf'
 import { cn } from '@/lib/utils'
 
@@ -31,7 +32,7 @@ export function Plano5w2h({ frente }: { frente: Frente }) {
     setPlano5w2h,
     taskStatus,
   } = useTasksStore()
-  const [gerando, setGerando] = React.useState(false)
+  const [gerando, setGerando] = React.useState<'pdf' | 'excel' | null>(null)
 
   const text = (taskId: string, field: Plano5w2hField) => plano5w2h[taskId]?.[field] ?? ''
 
@@ -55,22 +56,39 @@ export function Plano5w2h({ frente }: { frente: Frente }) {
             campos salvam automaticamente para todos.
           </p>
         </div>
-        <Button
-          size="sm"
-          className="shrink-0"
-          disabled={gerando}
-          onClick={async () => {
-            setGerando(true)
-            try {
-              await baixar5w2hPdf(frente, { taskStatus, deadlines, owners, plano5w2h })
-            } finally {
-              setGerando(false)
-            }
-          }}
-        >
-          <FileDown className="size-4" />
-          {gerando ? 'Gerando...' : '5W2H (PDF)'}
-        </Button>
+        <div className="flex shrink-0 flex-wrap gap-2">
+          <Button
+            size="sm"
+            disabled={gerando !== null}
+            onClick={async () => {
+              setGerando('excel')
+              try {
+                await baixar5w2hExcel(frente, { taskStatus, deadlines, owners, plano5w2h })
+              } finally {
+                setGerando(null)
+              }
+            }}
+          >
+            <FileSpreadsheet className="size-4" />
+            {gerando === 'excel' ? 'Gerando...' : '5W2H (Excel)'}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={gerando !== null}
+            onClick={async () => {
+              setGerando('pdf')
+              try {
+                await baixar5w2hPdf(frente, { taskStatus, deadlines, owners, plano5w2h })
+              } finally {
+                setGerando(null)
+              }
+            }}
+          >
+            <FileDown className="size-4" />
+            {gerando === 'pdf' ? 'Gerando...' : '5W2H (PDF)'}
+          </Button>
+        </div>
       </div>
 
       <Card className="overflow-hidden">
