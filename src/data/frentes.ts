@@ -245,12 +245,8 @@ export const frentes: Frente[] = [
           {
             id: 'f1-contabil',
             label: 'Contratar empresa contábil',
-            info: { modal: 'propostas', context: 'contabil-f1' },
-          },
-          {
-            id: 'f1-22',
-            label: 'Contratar contador local',
             description: 'O contrato precisa incluir a gestão da folha de pagamento dos funcionários.',
+            info: { modal: 'propostas', context: 'contabil-f1' },
           },
           {
             id: 'f1-6',
@@ -258,7 +254,6 @@ export const frentes: Frente[] = [
             description:
               'Definir o modelo tributário aplicável à operação, considerando natureza das vendas, importação, comercialização local e prestação de serviços.',
           },
-          { id: 'f1-7', label: 'Licença municipal en Ciudad del Este' },
           { id: 'f1-8', label: 'Inscrição no Instituto Previdência Social' },
           {
             id: 'f1-faturamento',
@@ -340,7 +335,7 @@ export const frentes: Frente[] = [
         title: '8. Estrutura Loja',
         tasks: [
           { id: 'f1-16', label: 'Planejar estoque inicial e definir enxoval da loja' },
-          { id: 'f1-mobiliario', label: 'Definir mobiliário e fachada da loja' },
+          { id: 'f1-mobiliario', label: 'Definir mobiliário da loja' },
           { id: 'f1-medidas-fachada', label: 'Retirar medidas da fachada da loja para enviar ao marketing' },
           {
             id: 'f1-equipamentos',
@@ -362,7 +357,7 @@ export const frentes: Frente[] = [
       {
         title: '9. Estruturação Sistêmica',
         tasks: [
-          { id: 'f1-estrutura-sistemica', label: 'Estruturar sistemas, funis de venda, acessos e criação da loja' },
+          { id: 'f1-estrutura-sistemica', label: 'Estruturar sistemas, funis de venda e criação da loja' },
           { id: 'f1-codigos', label: 'Estudar codificação dos produtos e tradução para o guarani' },
           { id: 'f1-acesso-vendedores', label: 'Criar acessos para os vendedores' },
           { id: 'f1-treinamento-portal', label: 'Treinar os vendedores no uso do portal' },
@@ -436,10 +431,9 @@ export const frentes: Frente[] = [
             description: 'Influenciadores, coquetel de lançamento e imprensa local.',
           },
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
-          { id: 'f1-mkt-abertura', label: 'Ação para abertura da loja' },
           {
             id: 'f1-mkt-brindes',
-            label: 'Brindes e amostras para a inauguração',
+            label: 'Brindes para a inauguração',
             description: 'Brindes a serem estudados conforme a cultura local.',
           },
           { id: 'f1-mkt-musica', label: 'Música para a abertura', description: 'Voz e violão.' },
@@ -558,7 +552,6 @@ export const frentes: Frente[] = [
               'Contratada: Braspar (Asunción) — elaboração do projeto, apresentação ao CNIME e INTN, aprovação biministerial. Honorários USD 12.000 (50% na contratação, 50% na aprovação).',
             info: { modal: 'propostas', context: 'consultoria-maquila-f3' },
           },
-          { id: 'f3-6', label: 'INICIAR Programa Maquila IMEDIATAMENTE (SETEMBRO 2026)' },
           { id: 'f3-7', label: 'Elaborar documentação técnica completa' },
           { id: 'f3-8', label: 'Certificar coeficientes junto INTN' },
           { id: 'f3-9', label: 'Confirmar origem MERCOSUL por NCM (60% extrazona / 40% regional)' },
