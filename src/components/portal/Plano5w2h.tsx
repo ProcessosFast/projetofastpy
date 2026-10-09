@@ -37,7 +37,7 @@ export function Plano5w2h({ frente }: { frente: Frente }) {
 
   const textArea = (taskId: string, field: Plano5w2hField, placeholder: string) => (
     <textarea
-      rows={2}
+      rows={Math.min(10, Math.max(2, text(taskId, field).split('\n').length))}
       value={text(taskId, field)}
       onChange={(e) => setPlano5w2h(taskId, field, e.target.value)}
       placeholder={placeholder}
