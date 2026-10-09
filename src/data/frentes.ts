@@ -273,7 +273,6 @@ export const frentes: Frente[] = [
         title: '3. Jurídico & Contratos',
         tasks: [
           { id: 'f1-9', label: 'Contrato franquia/parceria com FAST Brasil' },
-          { id: 'f1-10', label: 'Definir representação legal' },
           ...bkmMilestones('f1'),
         ],
       },
