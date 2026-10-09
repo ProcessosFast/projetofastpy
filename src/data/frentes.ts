@@ -425,19 +425,13 @@ export const frentes: Frente[] = [
             label: 'TV para usar na feira e depois levar para a loja',
             description: 'Definida a compra de uma TV de 65".',
           },
-          {
-            id: 'f1-26',
-            label: 'Estratégia de lançamento',
-            description: 'Influenciadores, coquetel de lançamento e imprensa local.',
-          },
           { id: 'f1-27', label: 'Participar Paraguay Business Week 2026 (11-13 nov)' },
           {
-            id: 'f1-mkt-brindes',
-            label: 'Brindes para a inauguração',
-            description: 'Brindes a serem estudados conforme a cultura local.',
+            id: 'f1-26',
+            label: 'Estratégias para a inauguração',
+            description:
+              'Música, brindes, iluminação, coquetel, influenciadores e imprensa local — detalhamento na aba 5W2H.',
           },
-          { id: 'f1-mkt-musica', label: 'Música para a abertura', description: 'Voz e violão.' },
-          { id: 'f1-mkt-refletor', label: 'Instalar refletor para a inauguração' },
           {
             id: 'f1-viagem-diretoria',
             label: 'Viagem da diretoria para a inauguração (dia 05)',
